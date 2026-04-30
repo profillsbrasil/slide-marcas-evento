@@ -130,3 +130,148 @@
     @apply font-sans;
     }
 }
+
+@keyframes brand-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@layer components {
+  .event-stage {
+    background:
+      radial-gradient(
+        circle at 18% 12%,
+        color-mix(in oklch, var(--primary) 24%, transparent),
+        transparent 34%
+      ),
+      radial-gradient(
+        circle at 86% 16%,
+        color-mix(in oklch, var(--muted) 58%, transparent),
+        transparent 32%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, var(--background) 82%, var(--card)),
+        color-mix(in oklch, var(--background) 92%, var(--primary) 8%)
+      ),
+      repeating-linear-gradient(
+        0deg,
+        color-mix(in oklch, var(--foreground) 5%, transparent) 0,
+        color-mix(in oklch, var(--foreground) 5%, transparent) 1px,
+        transparent 1px,
+        transparent 7px
+      );
+  }
+
+  .event-stage::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--foreground) 8%, transparent),
+      transparent 18%,
+      transparent 82%,
+      color-mix(in oklch, var(--background) 52%, transparent)
+    );
+  }
+
+  .brand-marquee {
+    min-height: 260px;
+    height: 33.333svh;
+    max-height: 390px;
+    border-color: color-mix(in oklch, var(--border) 72%, var(--primary));
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--card) 94%, var(--primary) 6%),
+        color-mix(in oklch, var(--muted) 84%, var(--card) 16%),
+        color-mix(in oklch, var(--card) 94%, var(--primary) 6%)
+      );
+    box-shadow: 0 28px 100px color-mix(in oklch, var(--background) 72%, transparent);
+  }
+
+  .brand-marquee__sheen {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, var(--foreground) 10%, transparent),
+        transparent 42%,
+        color-mix(in oklch, var(--background) 22%, transparent)
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--primary) 11%, transparent),
+        transparent 30%,
+        transparent 70%,
+        color-mix(in oklch, var(--primary) 8%, transparent)
+      );
+  }
+
+  .brand-marquee__viewport {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+  }
+
+  .brand-marquee__track {
+    animation: brand-marquee-scroll var(--brand-marquee-duration, 92s) linear infinite;
+    will-change: transform;
+  }
+
+  .brand-marquee__group {
+    gap: clamp(4.5rem, 7vw, 9.5rem);
+    padding-right: clamp(4.5rem, 7vw, 9.5rem);
+  }
+
+  .brand-marquee__item {
+    position: relative;
+    width: clamp(220px, 16vw, 340px);
+  }
+
+  .brand-marquee__item::before {
+    position: absolute;
+    inset: 18% -12%;
+    content: "";
+    background: radial-gradient(
+      ellipse,
+      color-mix(in oklch, var(--foreground) 17%, transparent),
+      transparent 68%
+    );
+    filter: blur(18px);
+    opacity: 0.58;
+  }
+
+  .brand-marquee__logo {
+    max-height: clamp(104px, 13svh, 172px);
+    filter: drop-shadow(0 16px 30px color-mix(in oklch, var(--background) 54%, transparent));
+  }
+
+  .control-sheet {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-marquee__track {
+      animation: none;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
