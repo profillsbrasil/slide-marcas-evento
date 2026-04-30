@@ -37,7 +37,7 @@ function getSpeedLabel(speed: number) {
   }
 
   if (speed >= 8) {
-    return "Rapido"
+    return "Rápido"
   }
 
   return "Equilibrado"
@@ -88,13 +88,15 @@ export function EventCarouselStage({
         } as React.CSSProperties
       }
     >
+      <div className="event-stage-grain" aria-hidden />
+
       <Sheet>
         <SheetTrigger asChild>
           <Button
             type="button"
             variant="outline"
             size="icon"
-            className="fixed top-5 left-5 z-40 border-border/70 bg-background/70 text-foreground shadow-lg shadow-background/30 backdrop-blur-md hover:bg-muted"
+            className="fixed top-5 left-5 z-40 border-border/60 bg-background/40 text-foreground/80 shadow-xl shadow-background/50 backdrop-blur-md transition-colors duration-300 hover:bg-background/70 hover:text-foreground"
             aria-label="Abrir controles do carrossel"
           >
             <MenuIcon className="size-5" />
@@ -102,32 +104,46 @@ export function EventCarouselStage({
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="dark control-sheet w-[min(88vw,24rem)] border-border/70 bg-popover/95 p-0 shadow-2xl shadow-background/40 backdrop-blur-xl duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
+          className="dark control-sheet w-[min(88vw,24rem)] border-border/60 bg-popover/95 p-0 shadow-2xl shadow-background/50 backdrop-blur-2xl duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
         >
-          <SheetHeader className="border-b border-border/70 px-6 py-5">
-            <SheetTitle>Controle do carrossel</SheetTitle>
-            <SheetDescription>
-              Ajuste a velocidade enquanto os logos continuam passando.
+          <SheetHeader className="relative gap-2 border-b border-border/60 px-6 py-6">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"
+            />
+            <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em] text-primary/80">
+              Painel do operador
+            </span>
+            <SheetTitle className="font-heading text-xl font-semibold tracking-tight text-foreground">
+              Controle do carrossel
+            </SheetTitle>
+            <SheetDescription className="text-sm leading-relaxed text-muted-foreground">
+              Ajuste a velocidade enquanto os logos continuam passando no telão.
             </SheetDescription>
           </SheetHeader>
 
-          <div className="flex flex-1 flex-col gap-7 p-6">
-            <div className="rounded-3xl border border-border/70 bg-card/70 p-5 shadow-sm">
+          <div className="flex flex-1 flex-col gap-6 p-6">
+            <div className="rounded-3xl border border-border/60 bg-card/60 p-6 shadow-inner shadow-background/30">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
-                  <Label htmlFor="carousel-speed">Velocidade</Label>
+                  <Label
+                    htmlFor="carousel-speed"
+                    className="font-heading text-base text-foreground"
+                  >
+                    Velocidade
+                  </Label>
                   <p className="text-sm text-muted-foreground">
                     {getSpeedLabel(speed)} · ciclo em {getDuration(speed)}
                   </p>
                 </div>
-                <div className="rounded-full bg-primary/10 px-3 py-1 font-mono text-sm text-primary">
+                <div className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-sm font-medium text-primary">
                   {speed}
                 </div>
               </div>
 
               <Slider
                 id="carousel-speed"
-                className="mt-6"
+                className="mt-7"
                 min={MIN_SPEED}
                 max={MAX_SPEED}
                 step={1}
@@ -138,11 +154,15 @@ export function EventCarouselStage({
                 aria-label="Velocidade do carrossel"
               />
 
-              <div className="mt-3 flex justify-between font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="mt-4 flex justify-between font-mono text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground/80">
                 <span>Lento</span>
-                <span>Rapido</span>
+                <span>Rápido</span>
               </div>
             </div>
+
+            <p className="px-1 text-xs leading-relaxed text-muted-foreground/70">
+              Mudanças aplicam ao vivo e ficam salvas neste navegador.
+            </p>
           </div>
         </SheetContent>
       </Sheet>
