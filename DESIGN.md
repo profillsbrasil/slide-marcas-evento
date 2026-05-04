@@ -88,6 +88,27 @@ Tudo respeita `prefers-reduced-motion: reduce`.
   velocidade. Aparece à esquerda ao clicar no botão fixed top-left
   (hamburger). Trigger e sheet do mesmo lado pra leitura natural.
 
+## Spotlight Cliente
+
+Lupa fixed `top-right` (espelho do hamburger `top-left`) abre drawer
+`side="right"` com busca de clientes. Lista vem de `data/clients.json`
+com fallback automático: logos sem entry no JSON geram entrada de busca
+pelo filename formatado. Mesma estética dark do operator sheet.
+
+Ao selecionar cliente, marquee é substituído por logo único centralizado
+(`<ClientSpotlight>`) — estático intencionalmente. Palco em modo
+conversa não pisca, não anima, não roda. Inverso da regra "marquee nunca
+pausa" — quando spotlight ativo, palco para totalmente. Header continua
+"Marcas Parceiras" (não troca pelo nome do cliente; foco é o logo).
+
+Voltar ao carrossel: botão dentro da própria drawer, visível só quando
+há cliente selecionado. Seleção **não persiste** — refresh sempre volta
+ao carrossel. Velocidade do marquee continua persistindo (separado).
+
+Busca: `fuse.js`, threshold `0.4`, match em `name + aliases` com
+normalização NFD + strip diacritics (aceita "acai" → "Açaí"). Navegação
+keyboard ↑/↓/Enter dentro da lista.
+
 ## Anti-patterns banidos
 
 - Gradientes radiais decorativos (blobs).
