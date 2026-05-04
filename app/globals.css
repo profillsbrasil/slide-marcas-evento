@@ -215,8 +215,20 @@
 
   .brand-marquee__logo {
     max-height: clamp(340px, 52svh, 640px);
-    /* one solid neutral shadow, not a glow — like a print poster */
-    filter: drop-shadow(0 8px 14px color-mix(in oklch, var(--foreground) 14%, transparent));
+    /*
+     * Contrast boost sharpens text inside low-res logos.
+     * Tighter shadow at 6px + wider ambient at 20px creates print-poster
+     * depth that separates the logo from the cream stage, making internal
+     * text easier to read even on washed-out projectors.
+     */
+    filter:
+      contrast(1.12)
+      drop-shadow(0 4px 6px color-mix(in oklch, var(--foreground) 22%, transparent))
+      drop-shadow(0 12px 20px color-mix(in oklch, var(--foreground) 10%, transparent));
+    /* hint the browser to use high-quality interpolation when upscaling small logos */
+    image-rendering: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   /* dev-only empty state when /public/brand-logos has no files */
