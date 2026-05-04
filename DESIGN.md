@@ -2,79 +2,97 @@
 
 ## Theme
 
-Dark sempre. Cena: pavilhão de feira regional ao fim da tarde, palco iluminado,
-público circulando, telão precisa puxar o olhar do canto sem ofuscar os logos.
+**Light stage**, sempre. O slide é exibido em telão grande no pavilhão da
+feira. Ambiente de pavilhão tem luz mista (palco iluminado, gente circulando,
+às vezes janela), e o tipo de marcas exibidas (alimentos regionais, açaí,
+sorvete, polpa) já são logos coloridos, geralmente sobre branco — fundo claro
+casa com a maioria dos arquivos `.jpg` e mantém o slide legível mesmo com luz
+ambiente alta.
+
+O painel de controle do operador (sheet lateral) é dark, em propósito: separa
+visualmente a UI administrativa da superfície de exibição ao vivo.
 
 ## Color strategy
 
-**Committed warm dusk.** Um saffron / âmbar saturado carrega 30 a 50% das
-superfícies de controle (sheet header, slider, badge de velocidade, anéis de
-foco). O stage de fundo é carvão quente com leve viés laranja, lambido por
-gradientes radiais cálidos que sugerem luz de fim de tarde.
+**Restrained.** A superfície inteira é creme quente sólido (`oklch(0.965 0.012
+82)`), foreground carvão quente, e um único accent vermelho-tijolo profundo
+(`oklch(0.42 0.18 28)`) cuida das raríssimas marcações de identidade — bolinha
+da label do header, foco, hover. Nenhum gradiente decorativo, nenhum halo,
+nenhuma atmosfera. Os logos coloridos das marcas carregam toda a informação
+visual.
 
-A categoria-reflex óbvia desse domínio é "evento de açaí → roxo". Foi
-explicitamente abandonada.
+A categoria-reflex óbvia ("evento de açaí → roxo, neon, atmosférico, glow") foi
+explicitamente abandonada. Referência mental: parede de patrocinadores em
+transmissão esportiva, cartaz de feira impresso, scoreboard.
 
-### Tokens (dark, único theme suportado)
+### Tokens (light)
 
-- `--background` `oklch(0.135 0.012 60)` — carvão quente
-- `--foreground` `oklch(0.96 0.012 80)` — creme quente
-- `--card` `oklch(0.185 0.018 55)` — cacau profundo
-- `--popover` `oklch(0.18 0.018 55)`
-- `--primary` `oklch(0.78 0.165 65)` — saffron / âmbar de pôr-do-sol
-- `--primary-foreground` `oklch(0.18 0.05 50)`
-- `--accent` casado com `--primary`
-- `--secondary` `oklch(0.245 0.015 60)`
-- `--muted` `oklch(0.225 0.012 60)`
-- `--muted-foreground` `oklch(0.7 0.018 75)`
-- `--border` `oklch(0.32 0.022 60)`
-- `--ring` `--primary`
-- `--destructive` `oklch(0.62 0.215 28)`
+- `--background` `oklch(0.965 0.012 82)` — papel quente
+- `--foreground` `oklch(0.22 0.012 60)` — carvão quente
+- `--card` / `--popover` `oklch(0.98 0.008 82)`
+- `--primary` `oklch(0.42 0.18 28)` — vermelho-tijolo (referência regional)
+- `--primary-foreground` `oklch(0.98 0.008 82)`
+- `--muted` `oklch(0.92 0.014 80)`
+- `--muted-foreground` `oklch(0.46 0.014 70)`
+- `--border` `oklch(0.84 0.014 75)`
+- `--ring` casado com `--primary`
+
+### Tokens (dark — apenas operator sheet)
+
+- `--background` `oklch(0.22 0.012 60)`
+- `--primary` `oklch(0.82 0.18 68)` — saffron, distingue painel do palco
+- demais tokens em rampa quente compatível
 
 ## Typography
 
-- **Heading** (sheet title, badges de velocidade): `IBM Plex Sans` — pega o
-  peso regional sem ser caricato. Tracking levemente apertado nos títulos,
-  generoso em uppercase de label (`tracking-[0.22em]`).
+- **Heading** (header do palco, título do sheet): `IBM Plex Sans` — referência
+  regional, peso semibold, uppercase com `tracking-[0.32em]` no header.
 - **Body / UI**: Geist Sans.
-- **Mono** (números de velocidade, duração): Geist Mono.
+- **Mono** (números de velocidade, duração, badges no header): Geist Mono
+  uppercase com tracking idêntico, dialoga com o heading.
 
 ## Motion
 
-Easing exclusivo: `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out-quart) para tudo
-que entra. Nada de bounce, nada de spring.
+Easing único: `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out-quart). Nada de
+bounce, nada de spring, nada decorativo.
 
-- `brand-marquee-scroll` linear, infinito, controlado pelo usuário (1–10 →
-  144s–36s).
-- `brand-marquee-bob` por logo: ±5px no Y, 5–8s, fase decalada por índice.
-  Vida sem alarde.
-- `brand-marquee-spotlight` em camada própria sobre o viewport: gradiente
-  radial quente atravessando da esquerda para a direita em ~22s, totalmente
-  desacoplado do scroll dos logos.
-- `event-stage-breath` 60s nos gradientes radiais do fundo: respiração lenta
-  da cena.
-- Entrada inicial: cascata de fade + translate-y nos logos com stagger
-  determinístico (`--i` × 28ms), 700ms ease-out-quart.
-- Sheet: ease já existente, nada a mudar além do conteúdo.
+- `brand-marquee-scroll` linear, infinito, controlado pelo usuário. Range
+  1–50, ciclo 360s (mais lento) → 18s (mais rápido), interpolação exponencial
+  (cada step é uma diferença percentual constante). Marquee **nunca pausa**:
+  sheet aberto, hover, foco — todos seguem rodando. O palco é superfície
+  pública e não pode congelar enquanto operador ajusta.
+- Entrada inicial: cascata sutil de fade + translate-y (16px → 0) por logo
+  com stagger determinístico (`--i × 28ms`), 700ms ease-out-quart.
+- **Removido** em relação às iterações anteriores: bob por logo, spotlight
+  sweep, breath dos gradientes do stage, film grain. Tudo isso foi
+  classificado como "cara de IA" e cortado.
 
-Tudo respeita `prefers-reduced-motion: reduce` — bob, breath, spotlight,
-entrada e o próprio marquee são desativados.
+Tudo respeita `prefers-reduced-motion: reduce`.
 
 ## Surfaces
 
-- **Stage** (`.event-stage`): fundo com 4 camadas combinadas — radiais quentes
-  alternando, varredura linear sutil, e respiração de 60s.
-- **Marquee row** (`.brand-marquee`): faixa horizontal centralizada, altura
-  fluida (`33vh` clampada 260–390px), borda quente, sheen interno mínimo,
-  spotlight superposto.
-- **Logo item** (`.brand-marquee__item`): largura fluida (`clamp(220, 16vw,
-  340)`), halo radial quente atrás do logo, bob individual.
-- **Sheet de controle**: `popover` escuro, header com âmbar discreto,
-  cartão interno de velocidade com badge mono.
+- **Stage** (`.event-stage`): coluna flex ocupando 100svh, fundo sólido creme.
+- **Header**: pequena bolinha primary + "Marcas Parceiras" em IBM Plex
+  uppercase, centralizado. Sem badge à direita, sem fio/borda abaixo —
+  header respira direto pro palco, sem moldura.
+- **Marquee** (`.brand-marquee`): `flex: 1` — toma todo o espaço vertical
+  restante. Sem fundo, sem borda, sem sombra de container.
+- **Logo item**: `clamp(540, 34vw, 880)px` largura, altura clampada a
+  `clamp(340, 52svh, 640)px`, drop-shadow neutro discreto direto no logo
+  (estilo cartaz impresso), gap entre logos `clamp(7, 10vw, 14)rem`.
+  **Sem plate / card / container atrás do logo** — testado e rejeitado:
+  encaixotar o logo o torna menor, contraria o princípio "logo é rei".
+  `.jpg` com fundo branco sólido sobre creme vira retângulo branco
+  aceito como estética scoreboard/parede de patrocinadores.
+- **Sheet de controle**: dark, header com âmbar discreto, cartão interno de
+  velocidade. Aparece à esquerda ao clicar no botão fixed top-left
+  (hamburger). Trigger e sheet do mesmo lado pra leitura natural.
 
 ## Anti-patterns banidos
 
-- Roxo, azul SaaS, qualquer cor sem ligação com o evento.
-- Cards aninhados, side-stripe borders, gradient text.
-- Modal de confirmação para mudanças de velocidade — ajuste é instantâneo e
-  reversível, nada de fricção.
+- Gradientes radiais decorativos (blobs).
+- Halos coloridos atrás dos logos.
+- Spotlight sweeps, glow trails, breath ambiental.
+- Film grain decorativo.
+- Glassmorphism, gradient text, side-stripe borders.
+- Cards aninhados, modal de confirmação para ajustes reversíveis.

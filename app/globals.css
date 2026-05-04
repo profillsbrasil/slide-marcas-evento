@@ -5,77 +5,74 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Single dark theme. The stage is always dark — exposed in the pavilion under
- * mixed light. The :root tokens exist only to keep shadcn primitives happy in
- * the rare case they render outside .dark scope.
+ * Light stage tuned for big-screen broadcast at trade events. The slide
+ * references printed sponsor walls and stadium scoreboards: warm cream
+ * surface, charcoal text, single brick-red accent. No ambient gradients,
+ * no glow halos. Logos sit on cream plates so .jpg whites blend into the
+ * stage instead of becoming bright rectangles.
+ *
+ * The control sheet still uses the dark scope (.dark) with a saffron
+ * accent so the operator UI feels distinct from the live stage.
  */
 :root {
-    --background: oklch(0.135 0.012 60);
-    --foreground: oklch(0.96 0.012 80);
-    --card: oklch(0.185 0.018 55);
-    --card-foreground: oklch(0.96 0.012 80);
-    --popover: oklch(0.18 0.018 55);
-    --popover-foreground: oklch(0.96 0.012 80);
-    --primary: oklch(0.78 0.165 65);
-    --primary-foreground: oklch(0.18 0.05 50);
-    --secondary: oklch(0.245 0.015 60);
-    --secondary-foreground: oklch(0.96 0.012 80);
-    --muted: oklch(0.225 0.012 60);
-    --muted-foreground: oklch(0.7 0.018 75);
-    --accent: oklch(0.78 0.165 65);
-    --accent-foreground: oklch(0.18 0.05 50);
-    --destructive: oklch(0.62 0.215 28);
-    --border: oklch(0.32 0.022 60);
-    --input: oklch(0.32 0.022 60);
-    --ring: oklch(0.78 0.165 65);
-    --chart-1: oklch(0.78 0.165 65);
-    --chart-2: oklch(0.7 0.18 45);
-    --chart-3: oklch(0.62 0.2 30);
-    --chart-4: oklch(0.55 0.22 18);
-    --chart-5: oklch(0.48 0.2 12);
+    --background: oklch(0.965 0.012 82);
+    --foreground: oklch(0.22 0.012 60);
+    --card: oklch(0.98 0.008 82);
+    --card-foreground: oklch(0.22 0.012 60);
+    --popover: oklch(0.98 0.008 82);
+    --popover-foreground: oklch(0.22 0.012 60);
+    --primary: oklch(0.42 0.18 28);
+    --primary-foreground: oklch(0.98 0.008 82);
+    --secondary: oklch(0.92 0.014 80);
+    --secondary-foreground: oklch(0.22 0.012 60);
+    --muted: oklch(0.92 0.014 80);
+    --muted-foreground: oklch(0.46 0.014 70);
+    --accent: oklch(0.42 0.18 28);
+    --accent-foreground: oklch(0.98 0.008 82);
+    --destructive: oklch(0.55 0.22 28);
+    --border: oklch(0.84 0.014 75);
+    --input: oklch(0.84 0.014 75);
+    --ring: oklch(0.42 0.18 28);
+    --chart-1: oklch(0.42 0.18 28);
+    --chart-2: oklch(0.55 0.16 50);
+    --chart-3: oklch(0.65 0.14 70);
+    --chart-4: oklch(0.55 0.12 100);
+    --chart-5: oklch(0.45 0.10 140);
     --radius: 0.625rem;
-    --sidebar: oklch(0.185 0.018 55);
-    --sidebar-foreground: oklch(0.96 0.012 80);
-    --sidebar-primary: oklch(0.78 0.165 65);
-    --sidebar-primary-foreground: oklch(0.18 0.05 50);
-    --sidebar-accent: oklch(0.245 0.015 60);
-    --sidebar-accent-foreground: oklch(0.96 0.012 80);
-    --sidebar-border: oklch(0.32 0.022 60);
-    --sidebar-ring: oklch(0.78 0.165 65);
+    --sidebar: oklch(0.22 0.012 60);
+    --sidebar-foreground: oklch(0.96 0.008 80);
+    --sidebar-primary: oklch(0.82 0.18 68);
+    --sidebar-primary-foreground: oklch(0.22 0.012 60);
+    --sidebar-accent: oklch(0.30 0.014 62);
+    --sidebar-accent-foreground: oklch(0.96 0.008 80);
+    --sidebar-border: oklch(0.38 0.018 65);
+    --sidebar-ring: oklch(0.82 0.18 68);
 }
 
+/*
+ * .dark scope is used only by the operator's control sheet. Warm dark
+ * surface with saffron accent — distinct from the cream stage so the
+ * panel reads as a separate piece of UI floating over it.
+ */
 .dark {
-    --background: oklch(0.135 0.012 60);
-    --foreground: oklch(0.96 0.012 80);
-    --card: oklch(0.185 0.018 55);
-    --card-foreground: oklch(0.96 0.012 80);
-    --popover: oklch(0.18 0.018 55);
-    --popover-foreground: oklch(0.96 0.012 80);
-    --primary: oklch(0.78 0.165 65);
-    --primary-foreground: oklch(0.18 0.05 50);
-    --secondary: oklch(0.245 0.015 60);
-    --secondary-foreground: oklch(0.96 0.012 80);
-    --muted: oklch(0.225 0.012 60);
-    --muted-foreground: oklch(0.7 0.018 75);
-    --accent: oklch(0.78 0.165 65);
-    --accent-foreground: oklch(0.18 0.05 50);
-    --destructive: oklch(0.62 0.215 28);
-    --border: oklch(0.32 0.022 60);
-    --input: oklch(0.32 0.022 60);
-    --ring: oklch(0.78 0.165 65);
-    --chart-1: oklch(0.78 0.165 65);
-    --chart-2: oklch(0.7 0.18 45);
-    --chart-3: oklch(0.62 0.2 30);
-    --chart-4: oklch(0.55 0.22 18);
-    --chart-5: oklch(0.48 0.2 12);
-    --sidebar: oklch(0.185 0.018 55);
-    --sidebar-foreground: oklch(0.96 0.012 80);
-    --sidebar-primary: oklch(0.78 0.165 65);
-    --sidebar-primary-foreground: oklch(0.18 0.05 50);
-    --sidebar-accent: oklch(0.245 0.015 60);
-    --sidebar-accent-foreground: oklch(0.96 0.012 80);
-    --sidebar-border: oklch(0.32 0.022 60);
-    --sidebar-ring: oklch(0.78 0.165 65);
+    --background: oklch(0.22 0.012 60);
+    --foreground: oklch(0.96 0.008 80);
+    --card: oklch(0.27 0.014 62);
+    --card-foreground: oklch(0.96 0.008 80);
+    --popover: oklch(0.24 0.014 62);
+    --popover-foreground: oklch(0.96 0.008 80);
+    --primary: oklch(0.82 0.18 68);
+    --primary-foreground: oklch(0.22 0.012 60);
+    --secondary: oklch(0.32 0.016 62);
+    --secondary-foreground: oklch(0.96 0.008 80);
+    --muted: oklch(0.30 0.014 62);
+    --muted-foreground: oklch(0.74 0.012 70);
+    --accent: oklch(0.82 0.18 68);
+    --accent-foreground: oklch(0.22 0.012 60);
+    --destructive: oklch(0.66 0.20 28);
+    --border: oklch(0.38 0.018 65);
+    --input: oklch(0.38 0.018 65);
+    --ring: oklch(0.82 0.18 68);
 }
 
 @theme inline {
@@ -149,52 +146,10 @@
   }
 }
 
-@keyframes brand-marquee-bob {
-  0%, 100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, calc(var(--bob-amplitude, 5px) * -1), 0);
-  }
-}
-
-@keyframes brand-marquee-spotlight {
-  0% {
-    transform: translate3d(-22%, 0, 0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate3d(122%, 0, 0);
-    opacity: 0;
-  }
-}
-
-@keyframes event-stage-breath {
-  0%, 100% {
-    transform: scale(1) translate3d(0, 0, 0);
-    opacity: 0.95;
-  }
-
-  50% {
-    transform: scale(1.06) translate3d(0.4%, -0.4%, 0);
-    opacity: 1;
-  }
-}
-
 @keyframes brand-marquee-rise {
   0% {
     opacity: 0;
-    transform: translate3d(0, 18px, 0);
+    transform: translate3d(0, 16px, 0);
   }
 
   100% {
@@ -207,193 +162,75 @@
 
 @layer components {
   .event-stage {
-    background:
-      radial-gradient(
-        ellipse 60% 70% at 16% 22%,
-        color-mix(in oklch, var(--primary) 22%, transparent),
-        transparent 60%
-      ),
-      radial-gradient(
-        ellipse 55% 65% at 84% 78%,
-        color-mix(in oklch, var(--chart-3) 28%, transparent),
-        transparent 62%
-      ),
-      radial-gradient(
-        ellipse 70% 50% at 50% 0%,
-        color-mix(in oklch, var(--chart-2) 18%, transparent),
-        transparent 70%
-      ),
-      linear-gradient(
-        180deg,
-        color-mix(in oklch, var(--background) 88%, var(--card)),
-        color-mix(in oklch, var(--background) 96%, var(--primary) 4%)
-      );
     background-color: var(--background);
   }
 
-  .event-stage::before {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    content: "";
-    pointer-events: none;
-    background:
-      radial-gradient(
-        ellipse 80% 90% at 50% 50%,
-        transparent 40%,
-        color-mix(in oklch, var(--background) 60%, transparent) 100%
-      );
-  }
-
-  .event-stage::after {
-    position: absolute;
-    inset: -20% -10%;
-    z-index: 0;
-    content: "";
-    pointer-events: none;
-    background:
-      radial-gradient(
-        ellipse 50% 50% at 30% 30%,
-        color-mix(in oklch, var(--primary) 14%, transparent),
-        transparent 70%
-      ),
-      radial-gradient(
-        ellipse 60% 60% at 75% 70%,
-        color-mix(in oklch, var(--chart-3) 18%, transparent),
-        transparent 65%
-      );
-    animation: event-stage-breath 60s ease-in-out infinite;
-    will-change: transform, opacity;
-  }
-
-  .event-stage > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* faint film grain — barely visible, kills banding */
-  .event-stage-grain {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.08;
-    mix-blend-mode: overlay;
-    background-image:
-      repeating-radial-gradient(
-        circle at 0 0,
-        color-mix(in oklch, var(--foreground) 100%, transparent) 0,
-        color-mix(in oklch, var(--foreground) 100%, transparent) 0.5px,
-        transparent 1px,
-        transparent 3px
-      );
-  }
-
   /* ── marquee row ─────────────────────────────────────────────────────────── */
+  /*
+   * The marquee is the live area. No card frame, no halo, no glow. Logos
+   * are rendered as large as possible — sponsor wall, not gallery.
+   */
 
   .brand-marquee {
-    min-height: 260px;
-    height: 33.333svh;
-    max-height: 390px;
-    border-color: color-mix(in oklch, var(--border) 60%, var(--primary) 18%);
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in oklch, var(--card) 92%, var(--primary) 8%),
-        color-mix(in oklch, var(--card) 86%, var(--background) 14%) 50%,
-        color-mix(in oklch, var(--card) 92%, var(--primary) 8%)
-      );
-    box-shadow:
-      0 30px 90px -10px color-mix(in oklch, var(--background) 65%, transparent),
-      0 0 0 1px color-mix(in oklch, var(--primary) 12%, transparent) inset;
-  }
-
-  .brand-marquee__sheen {
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in oklch, var(--foreground) 8%, transparent),
-        transparent 40%,
-        transparent 70%,
-        color-mix(in oklch, var(--background) 18%, transparent)
-      );
+    flex: 1 1 auto;
+    width: 100%;
+    background: transparent;
   }
 
   .brand-marquee__viewport {
     -webkit-mask-image: linear-gradient(
       90deg,
       transparent,
-      #000 7%,
-      #000 93%,
+      #000 4%,
+      #000 96%,
       transparent
     );
     mask-image: linear-gradient(
       90deg,
       transparent,
-      #000 7%,
-      #000 93%,
+      #000 4%,
+      #000 96%,
       transparent
     );
   }
 
-  /* warm spotlight that sweeps across the row, decoupled from scroll */
-  .brand-marquee__spotlight {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    width: 36%;
-    background: radial-gradient(
-      ellipse 50% 70% at 50% 50%,
-      color-mix(in oklch, var(--primary) 32%, transparent),
-      transparent 70%
-    );
-    mix-blend-mode: screen;
-    animation: brand-marquee-spotlight 22s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-    will-change: transform, opacity;
-  }
-
   .brand-marquee__track {
-    animation: brand-marquee-scroll var(--brand-marquee-duration, 92s) linear infinite;
+    animation: brand-marquee-scroll var(--brand-marquee-duration, 144s) linear infinite;
     will-change: transform;
   }
 
   .brand-marquee__group {
-    gap: clamp(4.5rem, 7vw, 9.5rem);
-    padding-right: clamp(4.5rem, 7vw, 9.5rem);
+    gap: clamp(7rem, 10vw, 14rem);
+    padding-right: clamp(7rem, 10vw, 14rem);
   }
 
   .brand-marquee__item {
     position: relative;
-    width: clamp(220px, 16vw, 340px);
-    animation:
-      brand-marquee-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both,
-      brand-marquee-bob var(--bob-duration, 6s) ease-in-out infinite;
-    animation-delay:
-      calc(var(--i, 0) * 28ms),
-      calc(var(--bob-delay, 0s));
+    width: clamp(540px, 34vw, 880px);
+    animation: brand-marquee-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    /* cap aggregate stagger so the 60th logo doesn't enter ~1.7s after the first */
+    animation-delay: calc(min(var(--i, 0), 22) * 28ms);
     transform-origin: center;
   }
 
-  .brand-marquee__item::before {
-    position: absolute;
-    inset: 14% -14%;
-    content: "";
-    background: radial-gradient(
-      ellipse,
-      color-mix(in oklch, var(--primary) 22%, transparent),
-      color-mix(in oklch, var(--foreground) 12%, transparent) 40%,
-      transparent 72%
-    );
-    filter: blur(22px);
-    opacity: 0.55;
-    z-index: 0;
+  .brand-marquee__logo {
+    max-height: clamp(340px, 52svh, 640px);
+    /* one solid neutral shadow, not a glow — like a print poster */
+    filter: drop-shadow(0 8px 14px color-mix(in oklch, var(--foreground) 14%, transparent));
   }
 
-  .brand-marquee__logo {
-    max-height: clamp(104px, 13svh, 172px);
-    filter:
-      drop-shadow(0 18px 28px color-mix(in oklch, var(--background) 60%, transparent))
-      drop-shadow(0 0 22px color-mix(in oklch, var(--primary) 10%, transparent));
+  /* dev-only empty state when /public/brand-logos has no files */
+  .brand-marquee__empty {
+    margin: auto;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px dashed color-mix(in oklch, var(--foreground) 30%, transparent);
+    border-radius: 1rem;
+    color: color-mix(in oklch, var(--foreground) 60%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+    max-width: 36rem;
   }
 
   /* ── sheet (control panel) ──────────────────────────────────────────────── */
@@ -412,15 +249,8 @@
 
     .brand-marquee__item {
       animation: none;
-    }
-
-    .brand-marquee__spotlight {
-      animation: none;
-      opacity: 0;
-    }
-
-    .event-stage::after {
-      animation: none;
+      opacity: 1;
+      transform: none;
     }
   }
 }

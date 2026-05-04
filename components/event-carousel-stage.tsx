@@ -16,31 +16,42 @@ import {
 import { Slider } from "@/components/ui/slider"
 
 const STORAGE_KEY = "brand-carousel-speed"
-const DEFAULT_SPEED = 5
 const MIN_SPEED = 1
-const MAX_SPEED = 10
+const MAX_SPEED = 50
+const DEFAULT_SPEED = 25
+// duration in seconds at the slow end (speed=MIN) and fast end (speed=MAX).
+// Exponential interpolation: each step is a constant percentage change rather
+// than constant seconds, so "1 → 2" feels as different as "49 → 50".
+const SLOW_DURATION = 360
+const FAST_DURATION = 18
 
 function clampSpeed(value: number) {
-  return Math.min(MAX_SPEED, Math.max(MIN_SPEED, value))
+  return Math.min(MAX_SPEED, Math.max(MIN_SPEED, Math.round(value)))
+}
+
+function getDurationSeconds(speed: number) {
+  const normalized = (clampSpeed(speed) - MIN_SPEED) / (MAX_SPEED - MIN_SPEED)
+  return SLOW_DURATION * Math.pow(FAST_DURATION / SLOW_DURATION, normalized)
 }
 
 function getDuration(speed: number) {
-  const normalized = (clampSpeed(speed) - MIN_SPEED) / (MAX_SPEED - MIN_SPEED)
-  const duration = 144 - normalized * 108
+  return `${Math.round(getDurationSeconds(speed))}s`
+}
 
-  return `${Math.round(duration)}s`
+function formatCycle(speed: number) {
+  const total = Math.round(getDurationSeconds(speed))
+  const minutes = Math.floor(total / 60)
+  const seconds = total % 60
+  if (minutes === 0) return `${seconds}s`
+  return `${minutes}m${seconds.toString().padStart(2, "0")}s`
 }
 
 function getSpeedLabel(speed: number) {
-  if (speed <= 3) {
-    return "Lento"
-  }
-
-  if (speed >= 8) {
-    return "Rápido"
-  }
-
-  return "Equilibrado"
+  if (speed <= 10) return "Bem lento"
+  if (speed <= 20) return "Lento"
+  if (speed <= 30) return "Equilibrado"
+  if (speed <= 40) return "Rápido"
+  return "Muito rápido"
 }
 
 export function EventCarouselStage({
@@ -81,36 +92,43 @@ export function EventCarouselStage({
 
   return (
     <main
-      className="dark event-stage relative grid min-h-svh place-items-center overflow-hidden"
+      className="event-stage relative flex h-svh w-full flex-col overflow-hidden"
       style={
         {
           "--brand-marquee-duration": getDuration(speed),
         } as React.CSSProperties
       }
     >
-      <div className="event-stage-grain" aria-hidden />
-
       <Sheet>
+        <header className="relative flex items-center justify-center gap-3 px-6 py-5 sm:px-10">
+          <span
+            aria-hidden
+            className="size-2.5 rounded-full bg-primary shadow-[0_0_0_4px_color-mix(in_oklch,var(--primary)_18%,transparent)]"
+          />
+          <p className="font-heading text-[clamp(1.05rem,1.5vw,1.55rem)] font-semibold uppercase tracking-[0.32em] text-foreground">
+            Marcas Parceiras
+          </p>
+        </header>
+
+        {children}
+
         <SheetTrigger asChild>
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="fixed top-5 left-5 z-40 border-border/60 bg-background/40 text-foreground/80 shadow-xl shadow-background/50 backdrop-blur-md transition-colors duration-300 hover:bg-background/70 hover:text-foreground"
+            className="fixed top-6 left-6 z-30 size-12 rounded-full border border-border/70 bg-card/80 text-foreground shadow-sm backdrop-blur-sm transition-colors duration-300 hover:bg-secondary sm:top-8 sm:left-8"
             aria-label="Abrir controles do carrossel"
           >
-            <MenuIcon className="size-5" />
+            <MenuIcon className="size-6" />
           </Button>
         </SheetTrigger>
+
         <SheetContent
           side="left"
-          className="dark control-sheet w-[min(88vw,24rem)] border-border/60 bg-popover/95 p-0 shadow-2xl shadow-background/50 backdrop-blur-2xl duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
+          className="dark control-sheet w-[min(88vw,24rem)] border-border/60 bg-popover p-0 text-popover-foreground shadow-2xl shadow-black/40 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
         >
           <SheetHeader className="relative gap-2 border-b border-border/60 px-6 py-6">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"
-            />
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em] text-primary/80">
               Painel do operador
             </span>
@@ -123,7 +141,7 @@ export function EventCarouselStage({
           </SheetHeader>
 
           <div className="flex flex-1 flex-col gap-6 p-6">
-            <div className="rounded-3xl border border-border/60 bg-card/60 p-6 shadow-inner shadow-background/30">
+            <div className="rounded-2xl border border-border/60 bg-card/60 p-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
                   <Label
@@ -133,7 +151,7 @@ export function EventCarouselStage({
                     Velocidade
                   </Label>
                   <p className="text-sm text-muted-foreground">
-                    {getSpeedLabel(speed)} · ciclo em {getDuration(speed)}
+                    {getSpeedLabel(speed)} · ciclo em {formatCycle(speed)}
                   </p>
                 </div>
                 <div className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-sm font-medium text-primary">
@@ -158,16 +176,22 @@ export function EventCarouselStage({
                 <span>Lento</span>
                 <span>Rápido</span>
               </div>
+
+              <button
+                type="button"
+                onClick={() => setSpeed(DEFAULT_SPEED)}
+                className="mt-5 w-full rounded-full border border-border/60 bg-transparent px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
+              >
+                Voltar ao padrão ({DEFAULT_SPEED})
+              </button>
             </div>
 
             <p className="px-1 text-xs leading-relaxed text-muted-foreground/70">
-              Mudanças aplicam ao vivo e ficam salvas neste navegador.
+              Salvo neste navegador. Continua na próxima abertura.
             </p>
           </div>
         </SheetContent>
       </Sheet>
-
-      {children}
     </main>
   )
 }
