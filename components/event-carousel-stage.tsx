@@ -3,6 +3,8 @@
 import * as React from "react"
 import { MenuIcon } from "lucide-react"
 
+import { ClientSearchSheet } from "@/components/client-search-sheet"
+import { ClientSpotlight } from "@/components/client-spotlight"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import {
@@ -14,6 +16,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Slider } from "@/components/ui/slider"
+import type { Client } from "@/lib/clients"
 
 const STORAGE_KEY = "brand-carousel-speed"
 const MIN_SPEED = 1
@@ -55,12 +58,15 @@ function getSpeedLabel(speed: number) {
 }
 
 export function EventCarouselStage({
+  clients,
   children,
 }: Readonly<{
+  clients: Client[]
   children: React.ReactNode
 }>) {
   const [speed, setSpeed] = React.useState(DEFAULT_SPEED)
   const [hasLoadedSavedSpeed, setHasLoadedSavedSpeed] = React.useState(false)
+  const [selectedClient, setSelectedClient] = React.useState<Client | null>(null)
 
   React.useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
@@ -110,7 +116,13 @@ export function EventCarouselStage({
           </p>
         </header>
 
-        {children}
+        {selectedClient ? <ClientSpotlight client={selectedClient} /> : children}
+
+        <span className="sr-only" aria-live="polite">
+          {selectedClient
+            ? `Mostrando cliente ${selectedClient.name}`
+            : "Carrossel restaurado"}
+        </span>
 
         <SheetTrigger asChild>
           <Button
@@ -192,6 +204,13 @@ export function EventCarouselStage({
           </div>
         </SheetContent>
       </Sheet>
+
+      <ClientSearchSheet
+        clients={clients}
+        selectedClient={selectedClient}
+        onSelect={setSelectedClient}
+        onClear={() => setSelectedClient(null)}
+      />
     </main>
   )
 }
