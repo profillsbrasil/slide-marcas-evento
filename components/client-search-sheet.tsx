@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { type Client, normalize } from "@/lib/clients"
+import { type Client, normalize } from "@/lib/clients-shared"
 
 type Props = {
   clients: Client[]

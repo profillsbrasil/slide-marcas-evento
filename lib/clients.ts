@@ -1,11 +1,9 @@
 import { readdirSync, readFileSync } from "fs"
 import { join } from "path"
 
-export type Client = {
-  name: string
-  logo: string
-  aliases: string[]
-}
+import type { Client } from "./clients-shared"
+
+export type { Client }
 
 type ClientEntry = {
   name: string
@@ -14,10 +12,6 @@ type ClientEntry = {
 }
 
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg"])
-
-export function normalize(value: string): string {
-  return value.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase()
-}
 
 function formatFilename(filename: string): string {
   const base = filename.slice(0, filename.lastIndexOf("."))
