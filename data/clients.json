@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Açaí Amazonas",
+    "logo": "acai-amazonas.png",
+    "aliases": ["açaí da amazônia", "acai amazonas"]
+  },
+  {
+    "name": "Açaí do Nelson",
+    "logo": "acai-do-nelson.png"
+  },
+  {
+    "name": "Ambev",
+    "logo": "ambev.png",
+    "aliases": ["ambev brasil"]
+  }
+]
