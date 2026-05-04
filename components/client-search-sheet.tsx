@@ -3,7 +3,7 @@
 import * as React from "react"
 import Image from "next/image"
 import Fuse from "fuse.js"
-import { SearchIcon } from "lucide-react"
+import { ArrowLeftIcon, SearchIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -136,7 +136,7 @@ export function ClientSearchSheet({
           <ul
             role="listbox"
             aria-label="Clientes"
-            className="flex flex-1 flex-col gap-1 overflow-y-auto pr-1"
+            className="scrollbar-stage flex flex-1 flex-col gap-1 overflow-y-auto pr-1"
           >
             {results.length === 0 ? (
               <li className="px-3 py-4 text-sm text-muted-foreground">
@@ -184,8 +184,9 @@ export function ClientSearchSheet({
                 onClear()
                 setOpen(false)
               }}
-              className="w-full rounded-full border border-border/60 bg-transparent px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-black/20 transition-colors duration-200 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover"
             >
+              <ArrowLeftIcon className="size-4" />
               Voltar ao carrossel
             </button>
           ) : null}

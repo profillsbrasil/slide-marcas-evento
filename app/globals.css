@@ -134,6 +134,24 @@
     }
 }
 
+/* ── scrollbar (operator sheet) ──────────────────────────────────────────── */
+
+/*
+ * Modern standard properties only. Chrome 121+ disables ::-webkit-scrollbar
+ * pseudos when scrollbar-color is set, so mixing both leaves the user with
+ * the default look. Firefox and Safari TP also implement the standard.
+ */
+.scrollbar-stage {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--border) 80%, transparent)
+    transparent;
+}
+
+.scrollbar-stage:hover {
+  scrollbar-color: color-mix(in oklch, var(--primary) 70%, transparent)
+    transparent;
+}
+
 /* ── motion primitives ────────────────────────────────────────────────────── */
 
 @keyframes brand-marquee-scroll {
