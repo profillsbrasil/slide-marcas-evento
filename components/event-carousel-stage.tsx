@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Image from "next/image"
-import { MenuIcon } from "lucide-react"
+import { MaximizeIcon, MenuIcon, MinimizeIcon } from "lucide-react"
 
 import { ClientSearchSheet } from "@/components/client-search-sheet"
 import { ClientSpotlight } from "@/components/client-spotlight"
@@ -103,6 +103,15 @@ function getTrackAnimation(): Animation | null {
   return track.getAnimations()[0] ?? null
 }
 
+function toggleFullscreen() {
+  if (typeof document === "undefined") return
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {})
+  } else {
+    document.documentElement.requestFullscreen().catch(() => {})
+  }
+}
+
 export function EventCarouselStage({
   clients,
   children,
@@ -115,6 +124,7 @@ export function EventCarouselStage({
   const [selectedClient, setSelectedClient] = React.useState<Client | null>(
     null
   )
+  const [isFullscreen, setIsFullscreen] = React.useState(false)
 
   React.useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
@@ -161,6 +171,90 @@ export function EventCarouselStage({
     if (!anim) return
     if (selectedClient) anim.pause()
     else anim.play()
+  }, [selectedClient])
+
+  // Keep the screen awake while the slide is up. Venue laptops often have
+  // aggressive sleep settings, and a black telão mid-event is a public
+  // failure with no easy recovery from the operator side.
+  React.useEffect(() => {
+    if (typeof navigator === "undefined" || !("wakeLock" in navigator)) {
+      return
+    }
+    let sentinel: WakeLockSentinel | null = null
+    const acquire = async () => {
+      try {
+        sentinel = await navigator.wakeLock.request("screen")
+      } catch (err) {
+        console.warn("[stage] wake lock unavailable:", err)
+      }
+    }
+    const onVisibility = () => {
+      if (
+        document.visibilityState === "visible" &&
+        (!sentinel || sentinel.released)
+      ) {
+        acquire()
+      }
+    }
+    acquire()
+    document.addEventListener("visibilitychange", onVisibility)
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility)
+      sentinel?.release().catch(() => {})
+    }
+  }, [])
+
+  // Track fullscreen so the button label reflects current state.
+  React.useEffect(() => {
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener("fullscreenchange", onChange)
+    return () => document.removeEventListener("fullscreenchange", onChange)
+  }, [])
+
+  // Operator shortcuts so the slide can be driven without touching the mouse
+  // in front of the audience. Ignored while typing in an input or while a
+  // sheet is open (Radix handles its own keys then).
+  React.useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null
+      const typing =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable
+      if (typing) return
+
+      // Fullscreen is global on purpose: the operator must be able to
+      // exit fullscreen even with a sheet open.
+      if (event.key === "f" || event.key === "F") {
+        event.preventDefault()
+        toggleFullscreen()
+        return
+      }
+
+      // Radix owns Escape, Tab, etc. inside its open sheets.
+      if (document.querySelector('[role="dialog"][data-state="open"]')) {
+        return
+      }
+
+      if (event.key === "/") {
+        event.preventDefault()
+        document
+          .querySelector<HTMLButtonElement>('[aria-label="Buscar cliente"]')
+          ?.click()
+      } else if (event.key === "s" || event.key === "S") {
+        event.preventDefault()
+        document
+          .querySelector<HTMLButtonElement>(
+            '[aria-label="Abrir controles do carrossel"]'
+          )
+          ?.click()
+      } else if (event.key === "Escape" && selectedClient) {
+        event.preventDefault()
+        setSelectedClient(null)
+      }
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
   }, [selectedClient])
 
   return (
@@ -274,9 +368,35 @@ export function EventCarouselStage({
               </button>
             </div>
 
-            <p className="px-1 text-xs leading-relaxed text-muted-foreground/70">
-              Salvo neste navegador. Continua na próxima abertura.
-            </p>
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-border/60 bg-card/70 px-4 py-3 text-sm font-medium text-foreground transition-colors duration-150 hover:bg-secondary"
+            >
+              {isFullscreen ? (
+                <MinimizeIcon className="size-4" />
+              ) : (
+                <MaximizeIcon className="size-4" />
+              )}
+              {isFullscreen ? "Sair da tela cheia" : "Tela cheia"}
+              <span className="ml-1 font-mono text-[0.62rem] tracking-[0.32em] text-muted-foreground/80 uppercase">
+                F
+              </span>
+            </button>
+
+            <div className="space-y-2 px-1 text-xs leading-relaxed text-muted-foreground/70">
+              <p>Salvo neste navegador. Continua na próxima abertura.</p>
+              <p>
+                <span className="font-mono text-[0.62rem] tracking-[0.32em] text-muted-foreground/80 uppercase">
+                  Atalhos
+                </span>
+                {" · "}
+                <kbd className="font-mono">/</kbd> busca{" · "}
+                <kbd className="font-mono">S</kbd> velocidade{" · "}
+                <kbd className="font-mono">F</kbd> tela cheia{" · "}
+                <kbd className="font-mono">Esc</kbd> volta ao carrossel
+              </p>
+            </div>
           </div>
         </SheetContent>
       </Sheet>
