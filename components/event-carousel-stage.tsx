@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import { MenuIcon } from "lucide-react"
 
 import { ClientSearchSheet } from "@/components/client-search-sheet"
@@ -66,7 +67,9 @@ export function EventCarouselStage({
 }>) {
   const [speed, setSpeed] = React.useState(DEFAULT_SPEED)
   const [hasLoadedSavedSpeed, setHasLoadedSavedSpeed] = React.useState(false)
-  const [selectedClient, setSelectedClient] = React.useState<Client | null>(null)
+  const [selectedClient, setSelectedClient] = React.useState<Client | null>(
+    null
+  )
 
   React.useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
@@ -106,17 +109,25 @@ export function EventCarouselStage({
       }
     >
       <Sheet>
-        <header className="relative flex items-center justify-center gap-3 px-6 py-5 sm:px-10">
-          <span
-            aria-hidden
-            className="size-2.5 rounded-full bg-primary shadow-[0_0_0_4px_color-mix(in_oklch,var(--primary)_18%,transparent)]"
+        <header className="relative flex min-h-[clamp(5.5rem,12svh,9rem)] items-center justify-center px-16 py-5 sm:px-24">
+          <h1 className="sr-only">Marcas parceiras PROFILLS</h1>
+          <Image
+            src="/logo.png"
+            alt="PROFILLS"
+            width={512}
+            height={113}
+            priority
+            sizes="(min-width: 1024px) 42vw, 64vw"
+            className="h-auto w-[clamp(14rem,34vw,32rem)] object-contain select-none"
+            draggable={false}
           />
-          <p className="font-heading text-[clamp(1.05rem,1.5vw,1.55rem)] font-semibold uppercase tracking-[0.32em] text-foreground">
-            Marcas Parceiras
-          </p>
         </header>
 
-        {selectedClient ? <ClientSpotlight client={selectedClient} /> : children}
+        {selectedClient ? (
+          <ClientSpotlight client={selectedClient} />
+        ) : (
+          children
+        )}
 
         <span className="sr-only" aria-live="polite">
           {selectedClient
@@ -129,7 +140,7 @@ export function EventCarouselStage({
             type="button"
             variant="ghost"
             size="icon"
-            className="fixed top-6 left-6 z-30 size-12 rounded-full border border-border/70 bg-card/80 text-foreground shadow-sm backdrop-blur-sm transition-colors duration-300 hover:bg-secondary sm:top-8 sm:left-8"
+            className="fixed top-5 left-5 z-30 size-11 rounded-md border border-border bg-card text-foreground shadow-[0_10px_28px_color-mix(in_oklch,var(--foreground)_12%,transparent)] transition-colors duration-150 hover:bg-secondary sm:top-7 sm:left-7"
             aria-label="Abrir controles do carrossel"
           >
             <MenuIcon className="size-6" />
@@ -138,10 +149,10 @@ export function EventCarouselStage({
 
         <SheetContent
           side="left"
-          className="dark control-sheet w-[min(88vw,24rem)] border-border/60 bg-popover p-0 text-popover-foreground shadow-2xl shadow-black/40 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
+          className="dark control-sheet w-[min(88vw,24rem)] border-border/60 bg-popover p-0 text-popover-foreground shadow-[0_18px_60px_rgb(0_0_0_/_0.28)] duration-180 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
         >
           <SheetHeader className="relative gap-2 border-b border-border/60 px-6 py-6">
-            <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em] text-primary/80">
+            <span className="font-mono text-[0.62rem] tracking-[0.32em] text-primary/80 uppercase">
               Painel do operador
             </span>
             <SheetTitle className="font-heading text-xl font-semibold tracking-tight text-foreground">
@@ -153,7 +164,7 @@ export function EventCarouselStage({
           </SheetHeader>
 
           <div className="flex flex-1 flex-col gap-6 p-6">
-            <div className="rounded-2xl border border-border/60 bg-card/60 p-6">
+            <div className="rounded-lg border border-border/60 bg-card/70 p-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
                   <Label
@@ -166,7 +177,7 @@ export function EventCarouselStage({
                     {getSpeedLabel(speed)} · ciclo em {formatCycle(speed)}
                   </p>
                 </div>
-                <div className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-sm font-medium text-primary">
+                <div className="rounded-md border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-sm font-medium text-primary">
                   {speed}
                 </div>
               </div>
@@ -184,7 +195,7 @@ export function EventCarouselStage({
                 aria-label="Velocidade do carrossel"
               />
 
-              <div className="mt-4 flex justify-between font-mono text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground/80">
+              <div className="mt-4 flex justify-between font-mono text-[0.62rem] tracking-[0.32em] text-muted-foreground/80 uppercase">
                 <span>Lento</span>
                 <span>Rápido</span>
               </div>
@@ -192,7 +203,7 @@ export function EventCarouselStage({
               <button
                 type="button"
                 onClick={() => setSpeed(DEFAULT_SPEED)}
-                className="mt-5 w-full rounded-full border border-border/60 bg-transparent px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
+                className="mt-5 w-full rounded-md border border-border/60 bg-transparent px-3 py-2 font-mono text-[0.62rem] tracking-[0.32em] text-muted-foreground uppercase transition-colors duration-150 hover:bg-secondary hover:text-foreground"
               >
                 Voltar ao padrão ({DEFAULT_SPEED})
               </button>

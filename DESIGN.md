@@ -72,9 +72,10 @@ Tudo respeita `prefers-reduced-motion: reduce`.
 ## Surfaces
 
 - **Stage** (`.event-stage`): coluna flex ocupando 100svh, fundo sólido creme.
-- **Header**: pequena bolinha primary + "Marcas Parceiras" em IBM Plex
-  uppercase, centralizado. Sem badge à direita, sem fio/borda abaixo —
-  header respira direto pro palco, sem moldura.
+- **Header**: logo PROFILLS (`/public/logo.png`) centralizado, em escala contida
+  para sinalizar o organizador sem competir com os logos parceiros. Sem label,
+  sem bolinha, sem fio/borda abaixo — header respira direto pro palco, sem
+  moldura.
 - **Marquee** (`.brand-marquee`): `flex: 1` — toma todo o espaço vertical
   restante. Sem fundo, sem borda, sem sombra de container.
 - **Logo item**: `clamp(540, 34vw, 880)px` largura, altura clampada a
@@ -86,7 +87,9 @@ Tudo respeita `prefers-reduced-motion: reduce`.
   aceito como estética scoreboard/parede de patrocinadores.
 - **Sheet de controle**: dark, header com âmbar discreto, cartão interno de
   velocidade. Aparece à esquerda ao clicar no botão fixed top-left
-  (hamburger). Trigger e sheet do mesmo lado pra leitura natural.
+  (hamburger). Trigger e sheet do mesmo lado pra leitura natural. Overlay sem
+  blur e animação curta só em transform/opacity, para não pesar sobre o
+  marquee em telão.
 
 ## Spotlight Cliente
 

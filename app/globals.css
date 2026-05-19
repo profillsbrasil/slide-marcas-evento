@@ -8,8 +8,8 @@
  * Light stage tuned for big-screen broadcast at trade events. The slide
  * references printed sponsor walls and stadium scoreboards: warm cream
  * surface, charcoal text, single brick-red accent. No ambient gradients,
- * no glow halos. Logos sit on cream plates so .jpg whites blend into the
- * stage instead of becoming bright rectangles.
+ * no glow halos. Logos sit directly on the stage so the screen reads like
+ * a sponsor wall instead of a generated dashboard.
  *
  * The control sheet still uses the dark scope (.dark) with a saffron
  * accent so the operator UI feels distinct from the live stage.
@@ -267,6 +267,8 @@
 
   .control-sheet {
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    contain: layout paint;
+    backface-visibility: hidden;
   }
 
   /* ── reduced motion ─────────────────────────────────────────────────────── */

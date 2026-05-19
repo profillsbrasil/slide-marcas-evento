@@ -60,7 +60,6 @@ export function ClientSearchSheet({
     return fuse.search(q).map((r) => r.item.client)
   }, [clients, fuse, query])
 
-
   function handleSelect(client: Client) {
     onSelect(client)
     setOpen(false)
@@ -95,7 +94,7 @@ export function ClientSearchSheet({
           type="button"
           variant="ghost"
           size="icon"
-          className="fixed top-6 right-6 z-30 size-12 rounded-full border border-border/70 bg-card/80 text-foreground shadow-sm backdrop-blur-sm transition-colors duration-300 hover:bg-secondary sm:top-8 sm:right-8"
+          className="fixed top-5 right-5 z-30 size-11 rounded-md border border-border bg-card text-foreground shadow-[0_10px_28px_color-mix(in_oklch,var(--foreground)_12%,transparent)] transition-colors duration-150 hover:bg-secondary sm:top-7 sm:right-7"
           aria-label="Buscar cliente"
         >
           <SearchIcon className="size-6" />
@@ -104,10 +103,10 @@ export function ClientSearchSheet({
 
       <SheetContent
         side="right"
-        className="dark control-sheet flex w-[min(88vw,24rem)] flex-col border-border/60 bg-popover p-0 text-popover-foreground shadow-2xl shadow-black/40 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
+        className="dark control-sheet flex w-[min(88vw,24rem)] flex-col border-border/60 bg-popover p-0 text-popover-foreground shadow-[0_18px_60px_rgb(0_0_0_/_0.28)] duration-180 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-md"
       >
         <SheetHeader className="relative gap-2 border-b border-border/60 px-6 py-6">
-          <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em] text-primary/80">
+          <span className="font-mono text-[0.62rem] tracking-[0.32em] text-primary/80 uppercase">
             Painel do operador
           </span>
           <SheetTitle className="font-heading text-xl font-semibold tracking-tight text-foreground">
@@ -154,7 +153,7 @@ export function ClientSearchSheet({
                       aria-selected={isSelected}
                       onClick={() => handleSelect(client)}
                       onMouseEnter={() => setActiveIndex(index)}
-                      className={`flex w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2 text-left transition-colors ${
+                      className={`flex w-full items-center gap-3 rounded-md border border-transparent px-3 py-2 text-left transition-colors duration-100 ${
                         isActive
                           ? "border-border/60 bg-secondary text-foreground"
                           : "hover:bg-secondary/60"
@@ -184,7 +183,7 @@ export function ClientSearchSheet({
                 onClear()
                 setOpen(false)
               }}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-black/20 transition-colors duration-200 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-black/20 transition-colors duration-150 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover focus-visible:outline-none"
             >
               <ArrowLeftIcon className="size-4" />
               Voltar ao carrossel
