@@ -39,10 +39,6 @@ function getDurationSeconds(speed: number) {
   return SLOW_DURATION * Math.pow(FAST_DURATION / SLOW_DURATION, normalized)
 }
 
-function getDuration(speed: number) {
-  return `${Math.round(getDurationSeconds(speed))}s`
-}
-
 function formatCycle(speed: number) {
   const total = Math.round(getDurationSeconds(speed))
   const minutes = Math.floor(total / 60)
@@ -60,57 +56,51 @@ function getSpeedLabel(speed: number) {
 }
 
 /*
- * Crossfades between the marquee and a client spotlight. The outgoing view
- * stays mounted just long enough to fade out while the incoming one fades
- * in, so swapping never reads as a hard cut on the public screen.
- * `childKey` identifies the active view; when it changes, the previous view
- * is held until its exit animation ends.
+ * Spotlight overlay that mounts when there is a client and stays mounted
+ * through its exit animation. The marquee underneath is never unmounted,
+ * so it keeps its scroll position and never re-runs the entrance cascade
+ * just because someone closed a spotlight.
  */
-function StageCrossfade({
-  childKey,
-  className,
-  children,
-}: {
-  childKey: string
-  className?: string
-  children: React.ReactNode
-}) {
-  const [current, setCurrent] = React.useState({
-    key: childKey,
-    node: children,
-  })
-  const [previous, setPrevious] = React.useState<{
-    key: string
-    node: React.ReactNode
-  } | null>(null)
+function SpotlightOverlay({ client }: { client: Client | null }) {
+  const [rendered, setRendered] = React.useState<Client | null>(null)
 
-  // Deriving state from props: when the active view changes, demote the
-  // current view to "previous" so it can fade out.
-  if (childKey !== current.key) {
-    setPrevious(current)
-    setCurrent({ key: childKey, node: children })
+  // Adopt the active client during render. When `client` is null, leave
+  // `rendered` set so the previous spotlight can play its exit animation;
+  // unmount happens on `animationend` below.
+  if (client && client.logo !== rendered?.logo) {
+    setRendered(client)
   }
 
+  if (!rendered) return null
+
+  const exiting = client === null
+
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      {previous ? (
-        <div
-          key={previous.key}
-          className="stage-layer stage-layer--exit"
-          aria-hidden
-          // ignore animationend bubbling up from child entrance animations
-          onAnimationEnd={(event) => {
-            if (event.target === event.currentTarget) setPrevious(null)
-          }}
-        >
-          {previous.node}
-        </div>
-      ) : null}
-      <div key={current.key} className="stage-layer stage-layer--enter">
-        {current.node}
-      </div>
+    <div
+      key={rendered.logo}
+      className={cn(
+        "stage-layer",
+        exiting ? "stage-layer--exit" : "stage-layer--enter"
+      )}
+      onAnimationEnd={(event) => {
+        if (event.target !== event.currentTarget) return
+        if (exiting) setRendered(null)
+      }}
+    >
+      <ClientSpotlight client={rendered} />
     </div>
   )
+}
+
+// Fixed reference duration that the CSS animation runs at; the speed slider
+// scales `playbackRate` around it so changing speed never restarts the loop.
+const REFERENCE_DURATION = SLOW_DURATION
+
+function getTrackAnimation(): Animation | null {
+  if (typeof document === "undefined") return null
+  const track = document.querySelector(".brand-marquee__track")
+  if (!track || typeof track.getAnimations !== "function") return null
+  return track.getAnimations()[0] ?? null
 }
 
 export function EventCarouselStage({
@@ -154,15 +144,27 @@ export function EventCarouselStage({
     window.localStorage.setItem(STORAGE_KEY, String(speed))
   }, [hasLoadedSavedSpeed, speed])
 
+  // Drive the marquee speed without restarting its animation. Changing the
+  // CSS `animation-duration` re-seeks to position 0 on every slider tick;
+  // adjusting `playbackRate` on the running animation does not.
+  const playbackRate = REFERENCE_DURATION / getDurationSeconds(speed)
+  React.useEffect(() => {
+    const anim = getTrackAnimation()
+    if (anim) anim.playbackRate = playbackRate
+  }, [playbackRate])
+
+  // Per DESIGN.md, the marquee stops fully while a client spotlight is up.
+  // Pausing the WAAPI animation preserves its position so it resumes from
+  // exactly where it was when the operator returns to the carousel.
+  React.useEffect(() => {
+    const anim = getTrackAnimation()
+    if (!anim) return
+    if (selectedClient) anim.pause()
+    else anim.play()
+  }, [selectedClient])
+
   return (
-    <main
-      className="event-stage relative flex h-svh w-full flex-col overflow-hidden"
-      style={
-        {
-          "--brand-marquee-duration": getDuration(speed),
-        } as React.CSSProperties
-      }
-    >
+    <main className="event-stage relative flex h-svh w-full flex-col overflow-hidden">
       <Sheet>
         <header className="relative flex min-h-[clamp(5.5rem,12svh,9rem)] items-center justify-center px-16 py-5 sm:px-24">
           <h1 className="sr-only">Marcas parceiras PROFILLS</h1>
@@ -178,18 +180,19 @@ export function EventCarouselStage({
           />
         </header>
 
-        <StageCrossfade
-          className="flex-1"
-          childKey={
-            selectedClient ? `spotlight:${selectedClient.logo}` : "marquee"
-          }
-        >
-          {selectedClient ? (
-            <ClientSpotlight client={selectedClient} />
-          ) : (
-            children
-          )}
-        </StageCrossfade>
+        <div className="relative flex flex-1 overflow-hidden">
+          {/* Marquee is permanent — fades and pauses, but never unmounts. */}
+          <div
+            className={cn(
+              "stage-marquee-layer",
+              selectedClient && "stage-marquee-layer--hidden"
+            )}
+            aria-hidden={selectedClient ? true : undefined}
+          >
+            {children}
+          </div>
+          <SpotlightOverlay client={selectedClient} />
+        </div>
 
         <span className="sr-only" aria-live="polite">
           {selectedClient

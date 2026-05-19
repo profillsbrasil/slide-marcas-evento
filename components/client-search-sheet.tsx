@@ -60,13 +60,21 @@ export function ClientSearchSheet({
     return fuse.search(q).map((r) => r.item.client)
   }, [clients, fuse, query])
 
+  // Derive a valid index instead of storing it back into state: when the
+  // result set shrinks below the stored cursor, aria-activedescendant would
+  // otherwise point at a non-existent option id.
+  const safeActiveIndex = Math.min(
+    activeIndex,
+    Math.max(0, results.length - 1)
+  )
+
   // keep the keyboard-highlighted option scrolled into view
   React.useEffect(() => {
     if (!open) return
     document
-      .getElementById(`client-option-${activeIndex}`)
+      .getElementById(`client-option-${safeActiveIndex}`)
       ?.scrollIntoView({ block: "nearest" })
-  }, [activeIndex, open, results])
+  }, [safeActiveIndex, open, results])
 
   function handleSelect(client: Client) {
     onSelect(client)
@@ -78,13 +86,13 @@ export function ClientSearchSheet({
     if (results.length === 0) return
     if (event.key === "ArrowDown") {
       event.preventDefault()
-      setActiveIndex((i) => Math.min(results.length - 1, i + 1))
+      setActiveIndex(Math.min(results.length - 1, safeActiveIndex + 1))
     } else if (event.key === "ArrowUp") {
       event.preventDefault()
-      setActiveIndex((i) => Math.max(0, i - 1))
+      setActiveIndex(Math.max(0, safeActiveIndex - 1))
     } else if (event.key === "Enter") {
       event.preventDefault()
-      const client = results[activeIndex]
+      const client = results[safeActiveIndex]
       if (client) handleSelect(client)
     }
   }
@@ -137,10 +145,18 @@ export function ClientSearchSheet({
             }}
             placeholder="Buscar por nome…"
             aria-label="Buscar cliente por nome"
+            // Combobox pattern: textbox alone doesn't support
+            // aria-activedescendant; AT only honors the listbox binding
+            // when the input declares the combobox role.
+            role="combobox"
+            aria-haspopup="listbox"
+            aria-expanded={results.length > 0}
             aria-controls="client-listbox"
             aria-autocomplete="list"
             aria-activedescendant={
-              results.length > 0 ? `client-option-${activeIndex}` : undefined
+              results.length > 0
+                ? `client-option-${safeActiveIndex}`
+                : undefined
             }
             autoFocus
           />
@@ -160,7 +176,7 @@ export function ClientSearchSheet({
               </li>
             ) : (
               results.map((client, index) => {
-                const isActive = index === activeIndex
+                const isActive = index === safeActiveIndex
                 const isSelected = selectedClient?.logo === client.logo
                 return (
                   <li

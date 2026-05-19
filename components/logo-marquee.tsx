@@ -13,7 +13,7 @@ function LogoSet({
 }) {
   return (
     <ul
-      aria-hidden={hidden}
+      aria-hidden={hidden || undefined}
       className="brand-marquee__group flex shrink-0 items-center"
     >
       {clients.map((client, index) => (
@@ -27,7 +27,9 @@ function LogoSet({
             alt={hidden ? "" : `Logo ${client.name}`}
             fill
             loading={hidden ? "lazy" : "eager"}
-            sizes="(min-width: 1400px) 880px, 34vw"
+            // matches the CSS box `clamp(540px, 34vw, 880px)`: floor and
+            // ceiling kick in at 1588px and 2588px viewport widths.
+            sizes="(min-width: 2588px) 880px, (min-width: 1588px) 34vw, 540px"
             className="brand-marquee__logo object-contain"
             draggable={false}
           />

@@ -235,7 +235,13 @@
   }
 
   .brand-marquee__track {
-    animation: brand-marquee-scroll var(--brand-marquee-duration, 144s) linear infinite;
+    /*
+     * Fixed reference duration. Speed control is driven via WAAPI
+     * `playbackRate` in EventCarouselStage so the slider doesn't restart
+     * the animation on every tick, and pausing the marquee while a client
+     * spotlight is up doesn't reset its position.
+     */
+    animation: brand-marquee-scroll 600s linear infinite;
     will-change: transform;
   }
 
@@ -274,13 +280,13 @@
      * Contrast boost sharpens text inside low-res logos. A single
      * drop-shadow gives print-poster depth against the cream stage; two
      * stacked shadow passes per logo were a needless paint cost on weak
-     * display hardware.
+     * display hardware. The track-level `will-change: transform` already
+     * promotes one compositor layer for the whole marquee — per-logo
+     * `backface-visibility: hidden` was just spawning extra GPU layers.
      */
     filter:
       contrast(1.12)
       drop-shadow(0 8px 14px color-mix(in oklch, var(--foreground) 16%, transparent));
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
   }
 
   /* production empty state — calm, so a misconfigured stage isn't an alarming blank */
@@ -313,9 +319,25 @@
 
   /* ── stage view crossfade ───────────────────────────────────────────────── */
   /*
-   * Marquee ↔ spotlight swap. Both views stack absolutely while one fades
-   * out and the other fades in, so the change never reads as a hard cut.
+   * Marquee ↔ spotlight swap. The marquee stays permanently mounted so its
+   * scroll position survives across spotlight cycles (re-mounting was
+   * resetting the loop AND re-triggering the entrance cascade on every
+   * "Voltar ao carrossel" — a real regression). The marquee just fades to
+   * transparent and pauses (via WAAPI in EventCarouselStage); the spotlight
+   * overlays on top with its own enter/exit animation.
    */
+
+  .stage-marquee-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stage-marquee-layer--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   .stage-layer {
     position: absolute;
@@ -327,7 +349,7 @@
     animation: stage-fade-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* exit is quicker than enter so the incoming view leads the swap */
+  /* exit is quicker than enter so the marquee underneath leads the swap back */
   .stage-layer--exit {
     animation: stage-fade-out 210ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
@@ -356,11 +378,15 @@
 
     /*
      * Keep a near-zero duration (not `none`) so `animationend` still fires
-     * and the exiting crossfade layer unmounts.
+     * and the exiting spotlight layer unmounts.
      */
     .stage-layer--enter,
     .stage-layer--exit {
       animation-duration: 0.01ms;
+    }
+
+    .stage-marquee-layer {
+      transition-duration: 0.01ms;
     }
   }
 }

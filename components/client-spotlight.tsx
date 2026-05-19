@@ -8,16 +8,19 @@ export function ClientSpotlight({ client }: { client: Client }) {
       aria-label={`Logo do cliente ${client.name}`}
       className="flex flex-1 items-center justify-center px-12"
     >
-      <Image
-        src={client.logo}
-        alt={`Logo ${client.name}`}
-        width={1400}
-        height={500}
-        priority
-        sizes="(min-width: 1400px) 1200px, 60vw"
-        className="h-auto w-full max-h-[clamp(360px,70svh,720px)] max-w-[clamp(540px,60vw,1200px)] object-contain"
-        draggable={false}
-      />
+      <div className="relative h-[clamp(360px,70svh,720px)] w-[clamp(540px,60vw,1200px)]">
+        <Image
+          src={client.logo}
+          alt={`Logo ${client.name}`}
+          fill
+          priority
+          // matches the CSS box `clamp(540px, 60vw, 1200px)`: floor at 900px
+          // viewport, ceiling at 2000px viewport.
+          sizes="(min-width: 2000px) 1200px, (min-width: 900px) 60vw, 540px"
+          className="object-contain"
+          draggable={false}
+        />
+      </div>
     </section>
   )
 }
