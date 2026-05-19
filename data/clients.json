@@ -12,5 +12,15 @@
     "name": "Ambev",
     "logo": "ambev.png",
     "aliases": ["ambev brasil"]
+  },
+  {
+    "name": "Point do Açaí D'Amazônia",
+    "logo": "logo-point-do-acai-sem-fundo.webp",
+    "aliases": ["point do acai", "ponto do acai"]
+  },
+  {
+    "name": "Point do Açaí Restaurante",
+    "logo": "point-do-acai-sem-fundo.webp",
+    "aliases": ["point do acai", "ponto do acai"]
   }
 ]

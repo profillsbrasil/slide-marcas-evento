@@ -16,6 +16,9 @@ const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".g
 function formatFilename(filename: string): string {
   const base = filename.slice(0, filename.lastIndexOf("."))
   return base
+    // file-prep artifacts, not part of the brand name
+    .replace(/^logo-/, "")
+    .replace(/-sem-fundo$/, "")
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")

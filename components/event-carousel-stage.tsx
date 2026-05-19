@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sheet"
 import { Slider } from "@/components/ui/slider"
 import type { Client } from "@/lib/clients"
+import { cn } from "@/lib/utils"
 
 const STORAGE_KEY = "brand-carousel-speed"
 const MIN_SPEED = 1
@@ -56,6 +57,60 @@ function getSpeedLabel(speed: number) {
   if (speed <= 30) return "Equilibrado"
   if (speed <= 40) return "Rápido"
   return "Muito rápido"
+}
+
+/*
+ * Crossfades between the marquee and a client spotlight. The outgoing view
+ * stays mounted just long enough to fade out while the incoming one fades
+ * in, so swapping never reads as a hard cut on the public screen.
+ * `childKey` identifies the active view; when it changes, the previous view
+ * is held until its exit animation ends.
+ */
+function StageCrossfade({
+  childKey,
+  className,
+  children,
+}: {
+  childKey: string
+  className?: string
+  children: React.ReactNode
+}) {
+  const [current, setCurrent] = React.useState({
+    key: childKey,
+    node: children,
+  })
+  const [previous, setPrevious] = React.useState<{
+    key: string
+    node: React.ReactNode
+  } | null>(null)
+
+  // Deriving state from props: when the active view changes, demote the
+  // current view to "previous" so it can fade out.
+  if (childKey !== current.key) {
+    setPrevious(current)
+    setCurrent({ key: childKey, node: children })
+  }
+
+  return (
+    <div className={cn("relative overflow-hidden", className)}>
+      {previous ? (
+        <div
+          key={previous.key}
+          className="stage-layer stage-layer--exit"
+          aria-hidden
+          // ignore animationend bubbling up from child entrance animations
+          onAnimationEnd={(event) => {
+            if (event.target === event.currentTarget) setPrevious(null)
+          }}
+        >
+          {previous.node}
+        </div>
+      ) : null}
+      <div key={current.key} className="stage-layer stage-layer--enter">
+        {current.node}
+      </div>
+    </div>
+  )
 }
 
 export function EventCarouselStage({
@@ -123,11 +178,18 @@ export function EventCarouselStage({
           />
         </header>
 
-        {selectedClient ? (
-          <ClientSpotlight client={selectedClient} />
-        ) : (
-          children
-        )}
+        <StageCrossfade
+          className="flex-1"
+          childKey={
+            selectedClient ? `spotlight:${selectedClient.logo}` : "marquee"
+          }
+        >
+          {selectedClient ? (
+            <ClientSpotlight client={selectedClient} />
+          ) : (
+            children
+          )}
+        </StageCrossfade>
 
         <span className="sr-only" aria-live="polite">
           {selectedClient

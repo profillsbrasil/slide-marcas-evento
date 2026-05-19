@@ -60,6 +60,14 @@ export function ClientSearchSheet({
     return fuse.search(q).map((r) => r.item.client)
   }, [clients, fuse, query])
 
+  // keep the keyboard-highlighted option scrolled into view
+  React.useEffect(() => {
+    if (!open) return
+    document
+      .getElementById(`client-option-${activeIndex}`)
+      ?.scrollIntoView({ block: "nearest" })
+  }, [activeIndex, open, results])
+
   function handleSelect(client: Client) {
     onSelect(client)
     setOpen(false)
@@ -129,16 +137,25 @@ export function ClientSearchSheet({
             }}
             placeholder="Buscar por nome…"
             aria-label="Buscar cliente por nome"
+            aria-controls="client-listbox"
+            aria-autocomplete="list"
+            aria-activedescendant={
+              results.length > 0 ? `client-option-${activeIndex}` : undefined
+            }
             autoFocus
           />
 
           <ul
+            id="client-listbox"
             role="listbox"
             aria-label="Clientes"
             className="scrollbar-stage flex flex-1 flex-col gap-1 overflow-y-auto pr-1"
           >
             {results.length === 0 ? (
-              <li className="px-3 py-4 text-sm text-muted-foreground">
+              <li
+                role="presentation"
+                className="px-3 py-4 text-sm text-muted-foreground"
+              >
                 Nenhum cliente encontrado.
               </li>
             ) : (
@@ -146,30 +163,29 @@ export function ClientSearchSheet({
                 const isActive = index === activeIndex
                 const isSelected = selectedClient?.logo === client.logo
                 return (
-                  <li key={client.logo}>
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={isSelected}
-                      onClick={() => handleSelect(client)}
-                      onMouseEnter={() => setActiveIndex(index)}
-                      className={`flex w-full items-center gap-3 rounded-md border border-transparent px-3 py-2 text-left transition-colors duration-100 ${
-                        isActive
-                          ? "border-border/60 bg-secondary text-foreground"
-                          : "hover:bg-secondary/60"
-                      }`}
-                    >
-                      <span className="relative size-10 shrink-0 overflow-hidden rounded-md bg-card/60">
-                        <Image
-                          src={client.logo}
-                          alt=""
-                          fill
-                          sizes="40px"
-                          className="object-contain p-1"
-                        />
-                      </span>
-                      <span className="text-sm font-medium">{client.name}</span>
-                    </button>
+                  <li
+                    key={client.logo}
+                    id={`client-option-${index}`}
+                    role="option"
+                    aria-selected={isSelected}
+                    onClick={() => handleSelect(client)}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    className={`flex cursor-pointer items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors duration-100 ${
+                      isActive
+                        ? "border-border/60 bg-secondary text-foreground"
+                        : "hover:bg-secondary/60"
+                    }`}
+                  >
+                    <span className="relative size-10 shrink-0 overflow-hidden rounded-md bg-card/60">
+                      <Image
+                        src={client.logo}
+                        alt=""
+                        fill
+                        sizes="40px"
+                        className="object-contain p-1"
+                      />
+                    </span>
+                    <span className="text-sm font-medium">{client.name}</span>
                   </li>
                 )
               })

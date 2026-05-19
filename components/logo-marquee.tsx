@@ -18,18 +18,17 @@ function LogoSet({
     >
       {clients.map((client, index) => (
         <li
-          key={client.logo}
+          key={`${startIndex}-${client.logo}`}
           className="brand-marquee__item shrink-0"
           style={{ "--i": String(startIndex + index) } as React.CSSProperties}
         >
           <Image
             src={client.logo}
             alt={hidden ? "" : `Logo ${client.name}`}
-            width={1400}
-            height={500}
-            loading="eager"
+            fill
+            loading={hidden ? "lazy" : "eager"}
             sizes="(min-width: 1400px) 880px, 34vw"
-            className="brand-marquee__logo h-auto w-full object-contain"
+            className="brand-marquee__logo object-contain"
             draggable={false}
           />
         </li>
@@ -44,8 +43,12 @@ export function LogoMarquee({ clients }: { clients: Client[] }) {
       return (
         <section
           aria-label="Marcas parceiras"
-          className="brand-marquee relative flex w-full items-center overflow-hidden"
-        />
+          className="brand-marquee relative flex w-full items-center justify-center overflow-hidden"
+        >
+          <p className="brand-marquee__placeholder">
+            As marcas parceiras aparecem aqui durante o evento.
+          </p>
+        </section>
       )
     }
 
