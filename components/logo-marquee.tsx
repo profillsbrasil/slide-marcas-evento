@@ -1,43 +1,13 @@
-import { readdirSync } from "fs"
-import { join } from "path"
 import Image from "next/image"
 
-const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg"])
-
-type BrandLogo = { name: string; src: string }
-
-function readBrandLogos(): BrandLogo[] {
-  const dir = join(process.cwd(), "public", "brand-logos")
-
-  let files: string[] = []
-  try {
-    files = readdirSync(dir)
-  } catch {
-    return []
-  }
-
-  return files
-    .filter((file) => {
-      const ext = file.slice(file.lastIndexOf(".")).toLowerCase()
-      return IMAGE_EXTENSIONS.has(ext)
-    })
-    .sort()
-    .map((file) => {
-      const base = file.slice(0, file.lastIndexOf("."))
-      const name = base
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ")
-      return { name, src: `/brand-logos/${file}` }
-    })
-}
+import type { Client } from "@/lib/clients-shared"
 
 function LogoSet({
-  logos,
+  clients,
   hidden = false,
   startIndex = 0,
 }: {
-  logos: BrandLogo[]
+  clients: Client[]
   hidden?: boolean
   startIndex?: number
 }) {
@@ -46,15 +16,15 @@ function LogoSet({
       aria-hidden={hidden}
       className="brand-marquee__group flex shrink-0 items-center"
     >
-      {logos.map((logo, index) => (
+      {clients.map((client, index) => (
         <li
-          key={logo.src}
+          key={client.logo}
           className="brand-marquee__item shrink-0"
           style={{ "--i": String(startIndex + index) } as React.CSSProperties}
         >
           <Image
-            src={logo.src}
-            alt={hidden ? "" : `Logo ${logo.name}`}
+            src={client.logo}
+            alt={hidden ? "" : `Logo ${client.name}`}
             width={1400}
             height={500}
             loading="eager"
@@ -68,10 +38,8 @@ function LogoSet({
   )
 }
 
-export function LogoMarquee() {
-  const logos = readBrandLogos()
-
-  if (logos.length === 0) {
+export function LogoMarquee({ clients }: { clients: Client[] }) {
+  if (clients.length === 0) {
     if (process.env.NODE_ENV !== "development") {
       return (
         <section
@@ -102,8 +70,8 @@ export function LogoMarquee() {
     >
       <div className="brand-marquee__viewport relative w-full overflow-hidden">
         <div className="brand-marquee__track flex w-max items-center">
-          <LogoSet logos={logos} startIndex={0} />
-          <LogoSet logos={logos} hidden startIndex={logos.length} />
+          <LogoSet clients={clients} startIndex={0} />
+          <LogoSet clients={clients} hidden startIndex={clients.length} />
         </div>
       </div>
     </section>

@@ -7,7 +7,7 @@ export default function Page() {
 
   return (
     <EventCarouselStage clients={clients}>
-      <LogoMarquee />
+      <LogoMarquee clients={clients} />
     </EventCarouselStage>
   )
 }
