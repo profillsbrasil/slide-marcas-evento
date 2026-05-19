@@ -94,7 +94,7 @@ export function ClientSearchSheet({
           type="button"
           variant="ghost"
           size="icon"
-          className="fixed top-5 right-5 z-30 size-11 rounded-md border border-border bg-card text-foreground shadow-[0_10px_28px_color-mix(in_oklch,var(--foreground)_12%,transparent)] transition-colors duration-150 hover:bg-secondary sm:top-7 sm:right-7"
+          className="fixed top-5 right-5 z-30 size-11 rounded-full border border-border bg-card text-foreground shadow-[0_10px_28px_color-mix(in_oklch,var(--foreground)_12%,transparent)] transition-colors duration-150 hover:bg-[var(--operator-popover)] hover:text-[var(--operator-popover-foreground)] sm:top-7 sm:right-7"
           aria-label="Buscar cliente"
         >
           <SearchIcon className="size-6" />

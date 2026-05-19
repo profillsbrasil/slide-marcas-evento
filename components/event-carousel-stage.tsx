@@ -22,11 +22,11 @@ import type { Client } from "@/lib/clients"
 const STORAGE_KEY = "brand-carousel-speed"
 const MIN_SPEED = 1
 const MAX_SPEED = 50
-const DEFAULT_SPEED = 25
+const DEFAULT_SPEED = 6
 // duration in seconds at the slow end (speed=MIN) and fast end (speed=MAX).
 // Exponential interpolation: each step is a constant percentage change rather
 // than constant seconds, so "1 → 2" feels as different as "49 → 50".
-const SLOW_DURATION = 360
+const SLOW_DURATION = 600
 const FAST_DURATION = 18
 
 function clampSpeed(value: number) {
@@ -140,7 +140,7 @@ export function EventCarouselStage({
             type="button"
             variant="ghost"
             size="icon"
-            className="fixed top-5 left-5 z-30 size-11 rounded-md border border-border bg-card text-foreground shadow-[0_10px_28px_color-mix(in_oklch,var(--foreground)_12%,transparent)] transition-colors duration-150 hover:bg-secondary sm:top-7 sm:left-7"
+            className="fixed top-5 left-5 z-30 size-11 rounded-full border border-border bg-card text-foreground shadow-[0_10px_28px_color-mix(in_oklch,var(--foreground)_12%,transparent)] transition-colors duration-150 hover:bg-[var(--operator-popover)] hover:text-[var(--operator-popover-foreground)] sm:top-7 sm:left-7"
             aria-label="Abrir controles do carrossel"
           >
             <MenuIcon className="size-6" />

@@ -57,7 +57,7 @@ Easing único: `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out-quart). Nada de
 bounce, nada de spring, nada decorativo.
 
 - `brand-marquee-scroll` linear, infinito, controlado pelo usuário. Range
-  1–50, ciclo 360s (mais lento) → 18s (mais rápido), interpolação exponencial
+  1–50, ciclo 600s (mais lento) → 18s (mais rápido), interpolação exponencial
   (cada step é uma diferença percentual constante). Marquee **nunca pausa**:
   sheet aberto, hover, foco — todos seguem rodando. O palco é superfície
   pública e não pode congelar enquanto operador ajusta.
