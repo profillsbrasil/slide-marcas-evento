@@ -57,10 +57,10 @@ elemento `<main>`, consumida pela animação `brand-marquee-scroll` em
   só pode ser importado em código de servidor. `clients-shared.ts` é isomórfico
   (`Client` type + `normalize()`) e é o que componentes `"use client"` importam.
   Não importe `lib/clients.ts` em componente client — quebra o build.
-- **Duas leituras do diretório de logos:** `LogoMarquee` relê
-  `public/brand-logos/` por conta própria (não recebe props), enquanto
-  `ClientSearchSheet` recebe a lista `clients` da raiz. São caminhos de dados
-  independentes — alterar um não afeta o outro.
+- **Fonte de dados única:** `readClients()` em `lib/clients.ts` é a única
+  leitura do filesystem. `app/page.tsx` chama essa função e repassa a mesma
+  lista `Client[]` para `LogoMarquee` e `ClientSearchSheet` via prop — não
+  releia o diretório de logos em outro lugar.
 - **Velocidade é exponencial:** o slider (1–50) mapeia para duração via
   interpolação exponencial (`SLOW_DURATION` 360s → `FAST_DURATION` 18s), então
   cada passo é uma variação percentual constante. Ver `getDurationSeconds()` em
