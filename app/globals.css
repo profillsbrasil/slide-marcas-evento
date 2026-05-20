@@ -23,19 +23,19 @@
     --popover-foreground: oklch(0.22 0.020 250);
     --operator-popover: oklch(0.24 0.020 250);
     --operator-popover-foreground: oklch(0.96 0.008 240);
-    --primary: oklch(0.32 0.14 255);
+    --primary: oklch(0.36 0.13 260);
     --primary-foreground: oklch(0.985 0.004 240);
     --secondary: oklch(0.93 0.010 240);
     --secondary-foreground: oklch(0.22 0.020 250);
     --muted: oklch(0.93 0.010 240);
     --muted-foreground: oklch(0.46 0.020 250);
-    --accent: oklch(0.32 0.14 255);
+    --accent: oklch(0.36 0.13 260);
     --accent-foreground: oklch(0.985 0.004 240);
     --destructive: oklch(0.55 0.22 28);
     --border: oklch(0.86 0.012 240);
     --input: oklch(0.86 0.012 240);
-    --ring: oklch(0.32 0.14 255);
-    --chart-1: oklch(0.32 0.14 255);
+    --ring: oklch(0.36 0.13 260);
+    --chart-1: oklch(0.36 0.13 260);
     --chart-2: oklch(0.45 0.13 240);
     --chart-3: oklch(0.58 0.11 220);
     --chart-4: oklch(0.65 0.09 200);
@@ -275,18 +275,20 @@
     animation-delay: calc(min(var(--i, 0), 22) * 28ms);
   }
 
-  .brand-marquee__logo {
+  .brand-marquee__logo,
+  .brand-spotlight__logo {
     /*
-     * Contrast boost sharpens text inside low-res logos. A single
-     * drop-shadow gives print-poster depth against the cream stage; two
-     * stacked shadow passes per logo were a needless paint cost on weak
-     * display hardware. The track-level `will-change: transform` already
-     * promotes one compositor layer for the whole marquee — per-logo
+     * Contrast boost sharpens text inside low-res logos. A single soft
+     * pure-black drop-shadow lifts logos with bright/white backgrounds off
+     * the ice-white stage without coloring the halo. Two stacked shadow
+     * passes per logo were a needless paint cost on weak display hardware.
+     * The track-level `will-change: transform` already promotes one
+     * compositor layer for the whole marquee — per-logo
      * `backface-visibility: hidden` was just spawning extra GPU layers.
      */
     filter:
       contrast(1.12)
-      drop-shadow(0 8px 14px color-mix(in oklch, var(--foreground) 16%, transparent));
+      drop-shadow(0 12px 28px rgb(0 0 0 / 0.14));
   }
 
   /* production empty state — calm, so a misconfigured stage isn't an alarming blank */

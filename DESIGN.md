@@ -16,7 +16,7 @@ visualmente a UI administrativa da superfície de exibição ao vivo.
 
 **Restrained.** A superfície inteira é branco-gelo levemente azulado
 (`oklch(0.985 0.004 240)`), foreground carvão frio, e um único accent navy
-profundo (`oklch(0.32 0.14 255)`) cuida das raríssimas marcações de
+profundo (`oklch(0.36 0.13 260)`) cuida das raríssimas marcações de
 identidade — bolinha da label do header, foco, hover. Nenhum gradiente
 decorativo, nenhum halo, nenhuma atmosfera. Os logos coloridos das marcas
 carregam toda a informação visual.
@@ -30,7 +30,7 @@ transmissão esportiva, cartaz de feira impresso, scoreboard.
 - `--background` `oklch(0.985 0.004 240)` — branco-gelo
 - `--foreground` `oklch(0.22 0.020 250)` — carvão frio
 - `--card` / `--popover` `oklch(0.99 0.003 240)`
-- `--primary` `oklch(0.32 0.14 255)` — navy profundo
+- `--primary` `oklch(0.36 0.13 260)` — navy profundo
 - `--primary-foreground` `oklch(0.985 0.004 240)`
 - `--muted` `oklch(0.93 0.010 240)`
 - `--muted-foreground` `oklch(0.46 0.020 250)`

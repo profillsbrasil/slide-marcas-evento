@@ -17,7 +17,7 @@ export function ClientSpotlight({ client }: { client: Client }) {
           // matches the CSS box `clamp(540px, 60vw, 1200px)`: floor at 900px
           // viewport, ceiling at 2000px viewport.
           sizes="(min-width: 2000px) 1200px, (min-width: 900px) 60vw, 540px"
-          className="object-contain"
+          className="brand-spotlight__logo object-contain"
           draggable={false}
         />
       </div>
