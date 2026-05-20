@@ -6,75 +6,75 @@
 
 /*
  * Light stage tuned for big-screen broadcast at trade events. The slide
- * references printed sponsor walls and stadium scoreboards: warm cream
- * surface, charcoal text, single brick-red accent. No ambient gradients,
+ * references printed sponsor walls and stadium scoreboards: cool ice-white
+ * surface, charcoal text, single deep-navy accent. No ambient gradients,
  * no glow halos. Logos sit directly on the stage so the screen reads like
  * a sponsor wall instead of a generated dashboard.
  *
- * The control sheet still uses the dark scope (.dark) with a saffron
- * accent so the operator UI feels distinct from the live stage.
+ * The control sheet still uses the dark scope (.dark) with a luminous
+ * blue accent so the operator UI feels distinct from the live stage.
  */
 :root {
-    --background: oklch(0.965 0.012 82);
-    --foreground: oklch(0.22 0.012 60);
-    --card: oklch(0.98 0.008 82);
-    --card-foreground: oklch(0.22 0.012 60);
-    --popover: oklch(0.98 0.008 82);
-    --popover-foreground: oklch(0.22 0.012 60);
-    --operator-popover: oklch(0.24 0.014 62);
-    --operator-popover-foreground: oklch(0.96 0.008 80);
-    --primary: oklch(0.42 0.18 28);
-    --primary-foreground: oklch(0.98 0.008 82);
-    --secondary: oklch(0.92 0.014 80);
-    --secondary-foreground: oklch(0.22 0.012 60);
-    --muted: oklch(0.92 0.014 80);
-    --muted-foreground: oklch(0.46 0.014 70);
-    --accent: oklch(0.42 0.18 28);
-    --accent-foreground: oklch(0.98 0.008 82);
+    --background: oklch(0.985 0.004 240);
+    --foreground: oklch(0.22 0.020 250);
+    --card: oklch(0.99 0.003 240);
+    --card-foreground: oklch(0.22 0.020 250);
+    --popover: oklch(0.99 0.003 240);
+    --popover-foreground: oklch(0.22 0.020 250);
+    --operator-popover: oklch(0.24 0.020 250);
+    --operator-popover-foreground: oklch(0.96 0.008 240);
+    --primary: oklch(0.32 0.14 255);
+    --primary-foreground: oklch(0.985 0.004 240);
+    --secondary: oklch(0.93 0.010 240);
+    --secondary-foreground: oklch(0.22 0.020 250);
+    --muted: oklch(0.93 0.010 240);
+    --muted-foreground: oklch(0.46 0.020 250);
+    --accent: oklch(0.32 0.14 255);
+    --accent-foreground: oklch(0.985 0.004 240);
     --destructive: oklch(0.55 0.22 28);
-    --border: oklch(0.84 0.014 75);
-    --input: oklch(0.84 0.014 75);
-    --ring: oklch(0.42 0.18 28);
-    --chart-1: oklch(0.42 0.18 28);
-    --chart-2: oklch(0.55 0.16 50);
-    --chart-3: oklch(0.65 0.14 70);
-    --chart-4: oklch(0.55 0.12 100);
-    --chart-5: oklch(0.45 0.10 140);
+    --border: oklch(0.86 0.012 240);
+    --input: oklch(0.86 0.012 240);
+    --ring: oklch(0.32 0.14 255);
+    --chart-1: oklch(0.32 0.14 255);
+    --chart-2: oklch(0.45 0.13 240);
+    --chart-3: oklch(0.58 0.11 220);
+    --chart-4: oklch(0.65 0.09 200);
+    --chart-5: oklch(0.70 0.08 180);
     --radius: 0.625rem;
-    --sidebar: oklch(0.22 0.012 60);
-    --sidebar-foreground: oklch(0.96 0.008 80);
-    --sidebar-primary: oklch(0.82 0.18 68);
-    --sidebar-primary-foreground: oklch(0.22 0.012 60);
-    --sidebar-accent: oklch(0.30 0.014 62);
-    --sidebar-accent-foreground: oklch(0.96 0.008 80);
-    --sidebar-border: oklch(0.38 0.018 65);
-    --sidebar-ring: oklch(0.82 0.18 68);
+    --sidebar: oklch(0.22 0.020 250);
+    --sidebar-foreground: oklch(0.96 0.008 240);
+    --sidebar-primary: oklch(0.72 0.14 250);
+    --sidebar-primary-foreground: oklch(0.22 0.020 250);
+    --sidebar-accent: oklch(0.30 0.018 250);
+    --sidebar-accent-foreground: oklch(0.96 0.008 240);
+    --sidebar-border: oklch(0.38 0.020 250);
+    --sidebar-ring: oklch(0.72 0.14 250);
 }
 
 /*
- * .dark scope is used only by the operator's control sheet. Warm dark
- * surface with saffron accent — distinct from the cream stage so the
- * panel reads as a separate piece of UI floating over it.
+ * .dark scope is used only by the operator's control sheet. Cool dark
+ * surface with luminous blue accent — distinct from the ice-white stage
+ * so the panel reads as a separate piece of UI floating over it.
  */
 .dark {
-    --background: oklch(0.22 0.012 60);
-    --foreground: oklch(0.96 0.008 80);
-    --card: oklch(0.27 0.014 62);
-    --card-foreground: oklch(0.96 0.008 80);
-    --popover: oklch(0.24 0.014 62);
-    --popover-foreground: oklch(0.96 0.008 80);
-    --primary: oklch(0.82 0.18 68);
-    --primary-foreground: oklch(0.22 0.012 60);
-    --secondary: oklch(0.32 0.016 62);
-    --secondary-foreground: oklch(0.96 0.008 80);
-    --muted: oklch(0.30 0.014 62);
-    --muted-foreground: oklch(0.74 0.012 70);
-    --accent: oklch(0.82 0.18 68);
-    --accent-foreground: oklch(0.22 0.012 60);
+    --background: oklch(0.22 0.020 250);
+    --foreground: oklch(0.96 0.008 240);
+    --card: oklch(0.27 0.018 250);
+    --card-foreground: oklch(0.96 0.008 240);
+    --popover: oklch(0.24 0.020 250);
+    --popover-foreground: oklch(0.96 0.008 240);
+    --primary: oklch(0.72 0.14 250);
+    --primary-foreground: oklch(0.22 0.020 250);
+    --secondary: oklch(0.32 0.018 250);
+    --secondary-foreground: oklch(0.96 0.008 240);
+    --muted: oklch(0.30 0.018 250);
+    --muted-foreground: oklch(0.74 0.014 240);
+    --accent: oklch(0.72 0.14 250);
+    --accent-foreground: oklch(0.22 0.020 250);
     --destructive: oklch(0.66 0.20 28);
-    --border: oklch(0.38 0.018 65);
-    --input: oklch(0.38 0.018 65);
-    --ring: oklch(0.82 0.18 68);
+    --border: oklch(0.38 0.020 250);
+    --input: oklch(0.38 0.020 250);
+    --ring: oklch(0.72 0.14 250);
 }
 
 @theme inline {
