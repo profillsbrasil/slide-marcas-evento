@@ -10,7 +10,8 @@ branco-gelo casa com a maioria dos arquivos `.jpg` e mantém o slide legível
 mesmo com luz ambiente alta.
 
 O painel de controle do operador (sheet lateral) é dark, em propósito: separa
-visualmente a UI administrativa da superfície de exibição ao vivo.
+visualmente a UI administrativa da superfície de exibição ao vivo, mas continua
+na mesma família navy dos botões flutuantes.
 
 ## Color strategy
 
@@ -39,9 +40,13 @@ transmissão esportiva, cartaz de feira impresso, scoreboard.
 
 ### Tokens (dark — apenas operator sheet)
 
-- `--background` `oklch(0.22 0.020 250)`
-- `--primary` `oklch(0.72 0.14 250)` — azul luminoso, distingue painel do palco
-- demais tokens em rampa fria compatível
+- `--background` `oklch(0.20 0.040 260)` — navy fechado
+- `--popover` `oklch(0.23 0.040 260)`
+- `--card` `oklch(0.25 0.045 260)`
+- `--primary` `oklch(0.68 0.12 260)` — mesmo hue do botão flutuante,
+  clareado para contraste em superfície escura
+- `--border` `oklch(0.38 0.055 260)`
+- `--muted-foreground` `oklch(0.76 0.024 250)`
 
 ## Typography
 
@@ -85,11 +90,13 @@ Tudo respeita `prefers-reduced-motion: reduce`.
   encaixotar o logo o torna menor, contraria o princípio "logo é rei".
   `.jpg` com fundo branco sólido sobre creme vira retângulo branco
   aceito como estética scoreboard/parede de patrocinadores.
-- **Sheet de controle**: dark, header com âmbar discreto, cartão interno de
-  velocidade. Aparece à esquerda ao clicar no botão fixed top-left
-  (hamburger). Trigger e sheet do mesmo lado pra leitura natural. Overlay sem
-  blur e animação curta só em transform/opacity, para não pesar sobre o
-  marquee em telão.
+- **Sheet de controle**: dark navy, alinhado à cor dos botões flutuantes,
+  com cartão interno de velocidade. Aparece à esquerda ao clicar no botão fixed
+  top-left (hamburger). Trigger e sheet do mesmo lado pra leitura natural.
+  Overlay sem blur e animação curta só em transform/opacity, para não pesar
+  sobre o marquee em telão. A saída do sheet usa deslocamento completo para fora
+  da tela; deslocamentos parciais foram rejeitados porque pareciam travamento
+  no fechamento.
 
 ## Spotlight Cliente
 

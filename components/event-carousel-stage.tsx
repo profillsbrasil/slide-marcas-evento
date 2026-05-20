@@ -7,6 +7,7 @@ import { MaximizeIcon, MenuIcon, MinimizeIcon } from "lucide-react"
 import { ClientSearchSheet } from "@/components/client-search-sheet"
 import { ClientSpotlight } from "@/components/client-spotlight"
 import { Button } from "@/components/ui/button"
+import { GridPattern } from "@/components/ui/grid-pattern"
 import { Label } from "@/components/ui/label"
 import {
   Sheet,
@@ -259,6 +260,14 @@ export function EventCarouselStage({
 
   return (
     <main className="event-stage relative flex h-svh w-full flex-col overflow-hidden">
+      <GridPattern
+        width={40}
+        height={40}
+        x={-1}
+        y={-1}
+        className="stage-grid !fill-current !stroke-current"
+      />
+
       <Sheet>
         <header className="relative flex min-h-[clamp(5.5rem,12svh,9rem)] items-center justify-center px-16 py-5 sm:px-24">
           <h1 className="sr-only">Marcas parceiras PROFILLS</h1>
