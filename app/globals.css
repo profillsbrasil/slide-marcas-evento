@@ -257,44 +257,11 @@
    * wide slot and rendered tiny. Fixed dimensions also reserve layout up
    * front, so decoding 185 logos never shifts the row.
    */
-  .brand-marquee__item,
-  .brand-spotlight__box {
-    position: relative;
-    transform-origin: center;
-  }
-
   .brand-marquee__item {
+    position: relative;
     width: clamp(540px, 34vw, 880px);
     height: clamp(340px, 52svh, 640px);
-  }
-
-  /*
-   * Ground-shadow blob: a soft elliptical haze centered behind each logo.
-   * Not a drop-shadow (which would trace the silhouette / the JPG rect) —
-   * a radial pool that anchors the logo to the ice-white stage like a
-   * studio photo. Sits *below* the image (z-index 0); the Image fill
-   * stays on top because Next.js renders it as position:absolute inside
-   * the wrapper. Pseudo is non-interactive.
-   */
-  .brand-marquee__item::before,
-  .brand-spotlight__box::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 58%;
-    width: 88%;
-    height: 68%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(
-      ellipse at center,
-      rgb(0 0 0 / 0.28) 0%,
-      rgb(0 0 0 / 0.17) 30%,
-      rgb(0 0 0 / 0.08) 55%,
-      transparent 80%
-    );
-    filter: blur(22px);
-    pointer-events: none;
-    z-index: 0;
+    transform-origin: center;
   }
 
   /*
@@ -308,17 +275,11 @@
     animation-delay: calc(min(var(--i, 0), 22) * 28ms);
   }
 
-  .brand-marquee__logo,
-  .brand-spotlight__logo {
+  .brand-marquee__logo {
     /*
-     * Contrast boost sharpens text inside low-res logos. Depth comes from
-     * the `::before` ground-shadow blob on the wrapper, not from a filter
-     * drop-shadow — drop-shadow traces alpha (PNG silhouette) or the JPG
-     * white rectangle, neither of which reads as "object on a surface".
-     * The radial blob behind the image gives even, photographic depth.
+     * Contrast boost sharpens text inside low-res logos. No drop-shadow:
+     * the ice-white stage already lets the brand colors carry the slide.
      */
-    position: relative;
-    z-index: 1;
     filter: contrast(1.12);
   }
 
