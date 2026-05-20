@@ -8,7 +8,7 @@ export function ClientSpotlight({ client }: { client: Client }) {
       aria-label={`Logo do cliente ${client.name}`}
       className="flex flex-1 items-center justify-center px-12"
     >
-      <div className="relative h-[clamp(360px,70svh,720px)] w-[clamp(540px,60vw,1200px)]">
+      <div className="brand-spotlight__box h-[clamp(360px,70svh,720px)] w-[clamp(540px,60vw,1200px)]">
         <Image
           src={client.logo}
           alt={`Logo ${client.name}`}

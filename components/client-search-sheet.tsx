@@ -110,7 +110,7 @@ export function ClientSearchSheet({
           type="button"
           variant="ghost"
           size="icon"
-          className="fixed top-5 right-5 z-30 size-11 rounded-full border border-transparent bg-primary text-primary-foreground shadow-[0_10px_28px_rgb(0_0_0_/_0.22)] transition-colors duration-150 hover:bg-primary/90 sm:top-7 sm:right-7"
+          className="fixed top-5 right-5 z-30 size-11 rounded-full border border-transparent bg-primary text-primary-foreground shadow-[0_10px_28px_rgb(0_0_0_/_0.22)] transition-colors duration-150 hover:bg-primary/90 hover:text-primary-foreground sm:top-7 sm:right-7"
           aria-label="Buscar cliente"
         >
           <SearchIcon className="size-6" />

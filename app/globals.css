@@ -257,11 +257,44 @@
    * wide slot and rendered tiny. Fixed dimensions also reserve layout up
    * front, so decoding 185 logos never shifts the row.
    */
-  .brand-marquee__item {
+  .brand-marquee__item,
+  .brand-spotlight__box {
     position: relative;
+    transform-origin: center;
+  }
+
+  .brand-marquee__item {
     width: clamp(540px, 34vw, 880px);
     height: clamp(340px, 52svh, 640px);
-    transform-origin: center;
+  }
+
+  /*
+   * Ground-shadow blob: a soft elliptical haze centered behind each logo.
+   * Not a drop-shadow (which would trace the silhouette / the JPG rect) —
+   * a radial pool that anchors the logo to the ice-white stage like a
+   * studio photo. Sits *below* the image (z-index 0); the Image fill
+   * stays on top because Next.js renders it as position:absolute inside
+   * the wrapper. Pseudo is non-interactive.
+   */
+  .brand-marquee__item::before,
+  .brand-spotlight__box::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    width: 78%;
+    height: 56%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      ellipse at center,
+      rgb(0 0 0 / 0.28) 0%,
+      rgb(0 0 0 / 0.16) 32%,
+      rgb(0 0 0 / 0.06) 56%,
+      transparent 74%
+    );
+    filter: blur(18px);
+    pointer-events: none;
+    z-index: 0;
   }
 
   /*
@@ -278,17 +311,15 @@
   .brand-marquee__logo,
   .brand-spotlight__logo {
     /*
-     * Contrast boost sharpens text inside low-res logos. A single soft
-     * pure-black drop-shadow lifts logos with bright/white backgrounds off
-     * the ice-white stage without coloring the halo. Two stacked shadow
-     * passes per logo were a needless paint cost on weak display hardware.
-     * The track-level `will-change: transform` already promotes one
-     * compositor layer for the whole marquee — per-logo
-     * `backface-visibility: hidden` was just spawning extra GPU layers.
+     * Contrast boost sharpens text inside low-res logos. Depth comes from
+     * the `::before` ground-shadow blob on the wrapper, not from a filter
+     * drop-shadow — drop-shadow traces alpha (PNG silhouette) or the JPG
+     * white rectangle, neither of which reads as "object on a surface".
+     * The radial blob behind the image gives even, photographic depth.
      */
-    filter:
-      contrast(1.12)
-      drop-shadow(0 16px 36px rgb(0 0 0 / 0.22));
+    position: relative;
+    z-index: 1;
+    filter: contrast(1.12);
   }
 
   /* production empty state — calm, so a misconfigured stage isn't an alarming blank */

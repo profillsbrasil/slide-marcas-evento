@@ -299,7 +299,7 @@ export function EventCarouselStage({
             type="button"
             variant="ghost"
             size="icon"
-            className="fixed top-5 left-5 z-30 size-11 rounded-full border border-transparent bg-primary text-primary-foreground shadow-[0_10px_28px_rgb(0_0_0_/_0.22)] transition-colors duration-150 hover:bg-primary/90 sm:top-7 sm:left-7"
+            className="fixed top-5 left-5 z-30 size-11 rounded-full border border-transparent bg-primary text-primary-foreground shadow-[0_10px_28px_rgb(0_0_0_/_0.22)] transition-colors duration-150 hover:bg-primary/90 hover:text-primary-foreground sm:top-7 sm:left-7"
             aria-label="Abrir controles do carrossel"
           >
             <MenuIcon className="size-6" />
