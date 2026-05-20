@@ -6,73 +6,76 @@
 
 /*
  * Light stage tuned for big-screen broadcast at trade events. The slide
- * references printed sponsor walls and stadium scoreboards: warm cream
- * surface, charcoal text, single brick-red accent. No ambient gradients,
- * no glow halos. Logos sit on cream plates so .jpg whites blend into the
- * stage instead of becoming bright rectangles.
+ * references printed sponsor walls and stadium scoreboards: cool ice-white
+ * surface, charcoal text, single deep-navy accent. No ambient gradients,
+ * no glow halos. Logos sit directly on the stage so the screen reads like
+ * a sponsor wall instead of a generated dashboard.
  *
- * The control sheet still uses the dark scope (.dark) with a saffron
- * accent so the operator UI feels distinct from the live stage.
+ * The control sheet still uses the dark scope (.dark), but stays in the
+ * same deep-navy family as the floating buttons so the operator UI reads
+ * as one system instead of a separate theme.
  */
 :root {
-    --background: oklch(0.965 0.012 82);
-    --foreground: oklch(0.22 0.012 60);
-    --card: oklch(0.98 0.008 82);
-    --card-foreground: oklch(0.22 0.012 60);
-    --popover: oklch(0.98 0.008 82);
-    --popover-foreground: oklch(0.22 0.012 60);
-    --primary: oklch(0.42 0.18 28);
-    --primary-foreground: oklch(0.98 0.008 82);
-    --secondary: oklch(0.92 0.014 80);
-    --secondary-foreground: oklch(0.22 0.012 60);
-    --muted: oklch(0.92 0.014 80);
-    --muted-foreground: oklch(0.46 0.014 70);
-    --accent: oklch(0.42 0.18 28);
-    --accent-foreground: oklch(0.98 0.008 82);
+    --background: oklch(0.985 0.004 240);
+    --foreground: oklch(0.22 0.020 250);
+    --card: oklch(0.99 0.003 240);
+    --card-foreground: oklch(0.22 0.020 250);
+    --popover: oklch(0.99 0.003 240);
+    --popover-foreground: oklch(0.22 0.020 250);
+    --operator-popover: oklch(0.23 0.040 260);
+    --operator-popover-foreground: oklch(0.96 0.008 240);
+    --primary: oklch(0.36 0.13 260);
+    --primary-foreground: oklch(0.985 0.004 240);
+    --secondary: oklch(0.93 0.010 240);
+    --secondary-foreground: oklch(0.22 0.020 250);
+    --muted: oklch(0.93 0.010 240);
+    --muted-foreground: oklch(0.46 0.020 250);
+    --accent: oklch(0.36 0.13 260);
+    --accent-foreground: oklch(0.985 0.004 240);
     --destructive: oklch(0.55 0.22 28);
-    --border: oklch(0.84 0.014 75);
-    --input: oklch(0.84 0.014 75);
-    --ring: oklch(0.42 0.18 28);
-    --chart-1: oklch(0.42 0.18 28);
-    --chart-2: oklch(0.55 0.16 50);
-    --chart-3: oklch(0.65 0.14 70);
-    --chart-4: oklch(0.55 0.12 100);
-    --chart-5: oklch(0.45 0.10 140);
+    --border: oklch(0.86 0.012 240);
+    --input: oklch(0.86 0.012 240);
+    --ring: oklch(0.36 0.13 260);
+    --chart-1: oklch(0.36 0.13 260);
+    --chart-2: oklch(0.45 0.13 240);
+    --chart-3: oklch(0.58 0.11 220);
+    --chart-4: oklch(0.65 0.09 200);
+    --chart-5: oklch(0.70 0.08 180);
     --radius: 0.625rem;
-    --sidebar: oklch(0.22 0.012 60);
-    --sidebar-foreground: oklch(0.96 0.008 80);
-    --sidebar-primary: oklch(0.82 0.18 68);
-    --sidebar-primary-foreground: oklch(0.22 0.012 60);
-    --sidebar-accent: oklch(0.30 0.014 62);
-    --sidebar-accent-foreground: oklch(0.96 0.008 80);
-    --sidebar-border: oklch(0.38 0.018 65);
-    --sidebar-ring: oklch(0.82 0.18 68);
+    --sidebar: oklch(0.21 0.040 260);
+    --sidebar-foreground: oklch(0.96 0.008 240);
+    --sidebar-primary: oklch(0.68 0.12 260);
+    --sidebar-primary-foreground: oklch(0.16 0.040 260);
+    --sidebar-accent: oklch(0.30 0.050 260);
+    --sidebar-accent-foreground: oklch(0.96 0.008 240);
+    --sidebar-border: oklch(0.38 0.055 260);
+    --sidebar-ring: oklch(0.68 0.12 260);
 }
 
 /*
- * .dark scope is used only by the operator's control sheet. Warm dark
- * surface with saffron accent — distinct from the cream stage so the
- * panel reads as a separate piece of UI floating over it.
+ * .dark scope is used only by the operator's control sheet. It keeps the
+ * stage's deep-navy hue, shifted lighter only where contrast on a dark
+ * surface needs it.
  */
 .dark {
-    --background: oklch(0.22 0.012 60);
-    --foreground: oklch(0.96 0.008 80);
-    --card: oklch(0.27 0.014 62);
-    --card-foreground: oklch(0.96 0.008 80);
-    --popover: oklch(0.24 0.014 62);
-    --popover-foreground: oklch(0.96 0.008 80);
-    --primary: oklch(0.82 0.18 68);
-    --primary-foreground: oklch(0.22 0.012 60);
-    --secondary: oklch(0.32 0.016 62);
-    --secondary-foreground: oklch(0.96 0.008 80);
-    --muted: oklch(0.30 0.014 62);
-    --muted-foreground: oklch(0.74 0.012 70);
-    --accent: oklch(0.82 0.18 68);
-    --accent-foreground: oklch(0.22 0.012 60);
+    --background: oklch(0.20 0.040 260);
+    --foreground: oklch(0.96 0.008 240);
+    --card: oklch(0.25 0.045 260);
+    --card-foreground: oklch(0.96 0.008 240);
+    --popover: oklch(0.23 0.040 260);
+    --popover-foreground: oklch(0.96 0.008 240);
+    --primary: oklch(0.68 0.12 260);
+    --primary-foreground: oklch(0.16 0.040 260);
+    --secondary: oklch(0.31 0.052 260);
+    --secondary-foreground: oklch(0.96 0.008 240);
+    --muted: oklch(0.30 0.045 260);
+    --muted-foreground: oklch(0.76 0.024 250);
+    --accent: oklch(0.68 0.12 260);
+    --accent-foreground: oklch(0.16 0.040 260);
     --destructive: oklch(0.66 0.20 28);
-    --border: oklch(0.38 0.018 65);
-    --input: oklch(0.38 0.018 65);
-    --ring: oklch(0.82 0.18 68);
+    --border: oklch(0.38 0.055 260);
+    --input: oklch(0.36 0.052 260);
+    --ring: oklch(0.68 0.12 260);
 }
 
 @theme inline {
@@ -176,11 +179,45 @@
   }
 }
 
+@keyframes stage-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes stage-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 /* ── stage ────────────────────────────────────────────────────────────────── */
 
 @layer components {
   .event-stage {
     background-color: var(--background);
+  }
+
+  .stage-grid.stage-grid {
+    inset: 0;
+    z-index: 0;
+    color: color-mix(in oklch, var(--foreground) 20%, transparent);
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 0.9;
+  }
+
+  .event-stage > :not(.stage-grid) {
+    position: relative;
+    z-index: 1;
   }
 
   /* ── marquee row ─────────────────────────────────────────────────────────── */
@@ -213,7 +250,13 @@
   }
 
   .brand-marquee__track {
-    animation: brand-marquee-scroll var(--brand-marquee-duration, 144s) linear infinite;
+    /*
+     * Fixed reference duration. Speed control is driven via WAAPI
+     * `playbackRate` in EventCarouselStage so the slider doesn't restart
+     * the animation on every tick, and pausing the marquee while a client
+     * spotlight is up doesn't reset its position.
+     */
+    animation: brand-marquee-scroll 600s linear infinite;
     will-change: transform;
   }
 
@@ -222,31 +265,51 @@
     padding-right: clamp(7rem, 10vw, 14rem);
   }
 
+  /*
+   * Fixed box so every logo gets an identical W×H frame. `next/image` with
+   * `fill` then `object-contain`s each logo into it, regardless of the
+   * source aspect ratio — square logos no longer get letterboxed into a
+   * wide slot and rendered tiny. Fixed dimensions also reserve layout up
+   * front, so decoding 185 logos never shifts the row.
+   */
   .brand-marquee__item {
     position: relative;
     width: clamp(540px, 34vw, 880px);
-    animation: brand-marquee-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    /* cap aggregate stagger so the 60th logo doesn't enter ~1.7s after the first */
-    animation-delay: calc(min(var(--i, 0), 22) * 28ms);
+    height: clamp(340px, 52svh, 640px);
     transform-origin: center;
   }
 
+  /*
+   * Entrance cascade plays once, only on the visible logo set. The
+   * aria-hidden duplicate exists solely for the seamless loop, so animating
+   * it was pure wasted work at mount.
+   */
+  .brand-marquee__group:not([aria-hidden="true"]) .brand-marquee__item {
+    animation: brand-marquee-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    /* cap aggregate stagger so late logos don't enter seconds after the first */
+    animation-delay: calc(min(var(--i, 0), 22) * 28ms);
+  }
+
   .brand-marquee__logo {
-    max-height: clamp(340px, 52svh, 640px);
     /*
-     * Contrast boost sharpens text inside low-res logos.
-     * Tighter shadow at 6px + wider ambient at 20px creates print-poster
-     * depth that separates the logo from the cream stage, making internal
-     * text easier to read even on washed-out projectors.
+     * Contrast boost sharpens text inside low-res logos. No drop-shadow:
+     * the ice-white stage already lets the brand colors carry the slide.
      */
-    filter:
-      contrast(1.12)
-      drop-shadow(0 4px 6px color-mix(in oklch, var(--foreground) 22%, transparent))
-      drop-shadow(0 12px 20px color-mix(in oklch, var(--foreground) 10%, transparent));
-    /* hint the browser to use high-quality interpolation when upscaling small logos */
-    image-rendering: auto;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    filter: contrast(1.12);
+  }
+
+  /* production empty state — calm, so a misconfigured stage isn't an alarming blank */
+  .brand-marquee__placeholder {
+    margin: auto;
+    max-width: 32ch;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--muted-foreground);
   }
 
   /* dev-only empty state when /public/brand-logos has no files */
@@ -263,10 +326,49 @@
     max-width: 36rem;
   }
 
+  /* ── stage view crossfade ───────────────────────────────────────────────── */
+  /*
+   * Marquee ↔ spotlight swap. The marquee stays permanently mounted so its
+   * scroll position survives across spotlight cycles (re-mounting was
+   * resetting the loop AND re-triggering the entrance cascade on every
+   * "Voltar ao carrossel" — a real regression). The marquee just fades to
+   * transparent and pauses (via WAAPI in EventCarouselStage); the spotlight
+   * overlays on top with its own enter/exit animation.
+   */
+
+  .stage-marquee-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stage-marquee-layer--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .stage-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+  }
+
+  .stage-layer--enter {
+    animation: stage-fade-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* exit is quicker than enter so the marquee underneath leads the swap back */
+  .stage-layer--exit {
+    animation: stage-fade-out 210ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   /* ── sheet (control panel) ──────────────────────────────────────────────── */
 
   .control-sheet {
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    contain: layout paint;
+    backface-visibility: hidden;
   }
 
   /* ── reduced motion ─────────────────────────────────────────────────────── */
@@ -277,10 +379,23 @@
       transform: translate3d(0, 0, 0);
     }
 
-    .brand-marquee__item {
+    .brand-marquee__group:not([aria-hidden="true"]) .brand-marquee__item {
       animation: none;
       opacity: 1;
       transform: none;
+    }
+
+    /*
+     * Keep a near-zero duration (not `none`) so `animationend` still fires
+     * and the exiting spotlight layer unmounts.
+     */
+    .stage-layer--enter,
+    .stage-layer--exit {
+      animation-duration: 0.01ms;
+    }
+
+    .stage-marquee-layer {
+      transition-duration: 0.01ms;
     }
   }
 }

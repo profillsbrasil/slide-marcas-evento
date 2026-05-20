@@ -5,21 +5,22 @@
 **Light stage**, sempre. O slide é exibido em telão grande no pavilhão da
 feira. Ambiente de pavilhão tem luz mista (palco iluminado, gente circulando,
 às vezes janela), e o tipo de marcas exibidas (alimentos regionais, açaí,
-sorvete, polpa) já são logos coloridos, geralmente sobre branco — fundo claro
-casa com a maioria dos arquivos `.jpg` e mantém o slide legível mesmo com luz
-ambiente alta.
+sorvete, polpa) já são logos coloridos, geralmente sobre branco — fundo
+branco-gelo casa com a maioria dos arquivos `.jpg` e mantém o slide legível
+mesmo com luz ambiente alta.
 
 O painel de controle do operador (sheet lateral) é dark, em propósito: separa
-visualmente a UI administrativa da superfície de exibição ao vivo.
+visualmente a UI administrativa da superfície de exibição ao vivo, mas continua
+na mesma família navy dos botões flutuantes.
 
 ## Color strategy
 
-**Restrained.** A superfície inteira é creme quente sólido (`oklch(0.965 0.012
-82)`), foreground carvão quente, e um único accent vermelho-tijolo profundo
-(`oklch(0.42 0.18 28)`) cuida das raríssimas marcações de identidade — bolinha
-da label do header, foco, hover. Nenhum gradiente decorativo, nenhum halo,
-nenhuma atmosfera. Os logos coloridos das marcas carregam toda a informação
-visual.
+**Restrained.** A superfície inteira é branco-gelo levemente azulado
+(`oklch(0.985 0.004 240)`), foreground carvão frio, e um único accent navy
+profundo (`oklch(0.36 0.13 260)`) cuida das raríssimas marcações de
+identidade — bolinha da label do header, foco, hover. Nenhum gradiente
+decorativo, nenhum halo, nenhuma atmosfera. Os logos coloridos das marcas
+carregam toda a informação visual.
 
 A categoria-reflex óbvia ("evento de açaí → roxo, neon, atmosférico, glow") foi
 explicitamente abandonada. Referência mental: parede de patrocinadores em
@@ -27,21 +28,25 @@ transmissão esportiva, cartaz de feira impresso, scoreboard.
 
 ### Tokens (light)
 
-- `--background` `oklch(0.965 0.012 82)` — papel quente
-- `--foreground` `oklch(0.22 0.012 60)` — carvão quente
-- `--card` / `--popover` `oklch(0.98 0.008 82)`
-- `--primary` `oklch(0.42 0.18 28)` — vermelho-tijolo (referência regional)
-- `--primary-foreground` `oklch(0.98 0.008 82)`
-- `--muted` `oklch(0.92 0.014 80)`
-- `--muted-foreground` `oklch(0.46 0.014 70)`
-- `--border` `oklch(0.84 0.014 75)`
+- `--background` `oklch(0.985 0.004 240)` — branco-gelo
+- `--foreground` `oklch(0.22 0.020 250)` — carvão frio
+- `--card` / `--popover` `oklch(0.99 0.003 240)`
+- `--primary` `oklch(0.36 0.13 260)` — navy profundo
+- `--primary-foreground` `oklch(0.985 0.004 240)`
+- `--muted` `oklch(0.93 0.010 240)`
+- `--muted-foreground` `oklch(0.46 0.020 250)`
+- `--border` `oklch(0.86 0.012 240)`
 - `--ring` casado com `--primary`
 
 ### Tokens (dark — apenas operator sheet)
 
-- `--background` `oklch(0.22 0.012 60)`
-- `--primary` `oklch(0.82 0.18 68)` — saffron, distingue painel do palco
-- demais tokens em rampa quente compatível
+- `--background` `oklch(0.20 0.040 260)` — navy fechado
+- `--popover` `oklch(0.23 0.040 260)`
+- `--card` `oklch(0.25 0.045 260)`
+- `--primary` `oklch(0.68 0.12 260)` — mesmo hue do botão flutuante,
+  clareado para contraste em superfície escura
+- `--border` `oklch(0.38 0.055 260)`
+- `--muted-foreground` `oklch(0.76 0.024 250)`
 
 ## Typography
 
@@ -57,7 +62,7 @@ Easing único: `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out-quart). Nada de
 bounce, nada de spring, nada decorativo.
 
 - `brand-marquee-scroll` linear, infinito, controlado pelo usuário. Range
-  1–50, ciclo 360s (mais lento) → 18s (mais rápido), interpolação exponencial
+  1–50, ciclo 600s (mais lento) → 18s (mais rápido), interpolação exponencial
   (cada step é uma diferença percentual constante). Marquee **nunca pausa**:
   sheet aberto, hover, foco — todos seguem rodando. O palco é superfície
   pública e não pode congelar enquanto operador ajusta.
@@ -72,9 +77,10 @@ Tudo respeita `prefers-reduced-motion: reduce`.
 ## Surfaces
 
 - **Stage** (`.event-stage`): coluna flex ocupando 100svh, fundo sólido creme.
-- **Header**: pequena bolinha primary + "Marcas Parceiras" em IBM Plex
-  uppercase, centralizado. Sem badge à direita, sem fio/borda abaixo —
-  header respira direto pro palco, sem moldura.
+- **Header**: logo PROFILLS (`/public/logo.png`) centralizado, em escala contida
+  para sinalizar o organizador sem competir com os logos parceiros. Sem label,
+  sem bolinha, sem fio/borda abaixo — header respira direto pro palco, sem
+  moldura.
 - **Marquee** (`.brand-marquee`): `flex: 1` — toma todo o espaço vertical
   restante. Sem fundo, sem borda, sem sombra de container.
 - **Logo item**: `clamp(540, 34vw, 880)px` largura, altura clampada a
@@ -84,9 +90,13 @@ Tudo respeita `prefers-reduced-motion: reduce`.
   encaixotar o logo o torna menor, contraria o princípio "logo é rei".
   `.jpg` com fundo branco sólido sobre creme vira retângulo branco
   aceito como estética scoreboard/parede de patrocinadores.
-- **Sheet de controle**: dark, header com âmbar discreto, cartão interno de
-  velocidade. Aparece à esquerda ao clicar no botão fixed top-left
-  (hamburger). Trigger e sheet do mesmo lado pra leitura natural.
+- **Sheet de controle**: dark navy, alinhado à cor dos botões flutuantes,
+  com cartão interno de velocidade. Aparece à esquerda ao clicar no botão fixed
+  top-left (hamburger). Trigger e sheet do mesmo lado pra leitura natural.
+  Overlay sem blur e animação curta só em transform/opacity, para não pesar
+  sobre o marquee em telão. A saída do sheet usa deslocamento completo para fora
+  da tela; deslocamentos parciais foram rejeitados porque pareciam travamento
+  no fechamento.
 
 ## Spotlight Cliente
 

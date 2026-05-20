@@ -1,9 +1,16 @@
+import type { Metadata } from "next"
 import { Geist, Geist_Mono, IBM_Plex_Sans } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import "./globals.css"
+
+export const metadata: Metadata = {
+  title: "Telão PROFILLS · Marcas Parceiras",
+  description:
+    "Slide de telão para feiras e eventos — marcas parceiras do segmento de açaí, polpas e alimentos regionais.",
+}
 
 const ibmPlexSansHeading = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -23,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       suppressHydrationWarning
       className={cn(
         "antialiased",
