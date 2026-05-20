@@ -61,8 +61,8 @@ export function LogoMarquee({ clients }: { clients: Client[] }) {
       >
         <p className="brand-marquee__empty">
           Adicione logos em{" "}
-          <code className="font-mono">/public/brand-logos/</code>
-          {" "}para preencher o palco.
+          <code className="font-mono">/public/brand-logos/</code> para preencher
+          o palco.
         </p>
       </section>
     )

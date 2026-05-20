@@ -11,22 +11,35 @@ type ClientEntry = {
   aliases?: string[]
 }
 
-const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg"])
+const IMAGE_EXTENSIONS = new Set([
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".webp",
+  ".avif",
+  ".gif",
+  ".svg",
+])
 
 function formatFilename(filename: string): string {
   const base = filename.slice(0, filename.lastIndexOf("."))
-  return base
-    // file-prep artifacts, not part of the brand name
-    .replace(/^logo-/, "")
-    .replace(/-sem-fundo$/, "")
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
+  return (
+    base
+      // file-prep artifacts, not part of the brand name
+      .replace(/^logo-/, "")
+      .replace(/-sem-fundo$/, "")
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  )
 }
 
 function readJsonEntries(): ClientEntry[] {
   try {
-    const raw = readFileSync(join(process.cwd(), "data", "clients.json"), "utf-8")
+    const raw = readFileSync(
+      join(process.cwd(), "data", "clients.json"),
+      "utf-8"
+    )
     const parsed = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
     return parsed.filter(

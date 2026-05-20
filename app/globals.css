@@ -282,17 +282,18 @@
     position: absolute;
     left: 50%;
     top: 58%;
-    width: 78%;
-    height: 56%;
+    width: 110%;
+    height: 88%;
     transform: translate(-50%, -50%);
     background: radial-gradient(
       ellipse at center,
-      rgb(0 0 0 / 0.28) 0%,
-      rgb(0 0 0 / 0.16) 32%,
-      rgb(0 0 0 / 0.06) 56%,
-      transparent 74%
+      rgb(0 0 0 / 0.26) 0%,
+      rgb(0 0 0 / 0.16) 28%,
+      rgb(0 0 0 / 0.08) 52%,
+      rgb(0 0 0 / 0.03) 74%,
+      transparent 92%
     );
-    filter: blur(18px);
+    filter: blur(28px);
     pointer-events: none;
     z-index: 0;
   }
